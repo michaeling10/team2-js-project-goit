@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page title</title>
-    <link rel="stylesheet" href="./sass/index.scss" />
-    <script type="module" src="./index.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <title>Filmoteka</title>
   </head>
   <body>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/example.html"></include>
+    <header>
+      <button id="home-btn">Home</button>
+      <button id="library-btn">My Library</button>
+      <input type="text" id="searchInput" placeholder="Search for a movie..." />
+      <button id="searchButton">Search</button>
+    </header>
+
+    <main id="main-content">
+      <div id="home-page">
+        <h1>Popular Movies</h1>
+        <div class="gallery"></div>
+        <div class="btn-load-container">
+          <button type="button" id="load-more" style="display: none">
+            Load more!
+          </button>
+        </div>
+      </div>
+
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div id="movie-details"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2023 GOIT. Bug Buster.</p>
+    </footer>
+
+    <script src="./index.js" type="module"></script>
   </body>
 </html>
