@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #212121;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery {
+  display: grid;
+  max-width: 1024px;
+  grid-template-columns: repeat(3, 270px);
+  grid-gap: 30px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.movie-card {
+  min-height: 439px;
+  padding-bottom: 31px;
+  cursor: pointer;
+}
+
+.movie-img {
+  width: 100%;
+  height: 398px;
+  border-radius: 5px;
+}
