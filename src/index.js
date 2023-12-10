@@ -8,7 +8,6 @@ const homePage = document.getElementById('home-page');
 const libraryBtn = document.getElementById('library-btn');
 const homeBtn = document.getElementById('home-btn');
 const gallery = document.querySelector('.gallery');
-const loadMoreButton = document.getElementById('load-more');
 const modal = document.getElementById('modal');
 const movieDetailsContainer = document.getElementById('movie-details');
 const searchInput = document.getElementById('searchInput');
@@ -21,11 +20,12 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
 
 // Global Variables
 let page = 1;
+let currentContext = 'home';
+let genresList = [];
 
 // Event Listeners
 homeBtn.addEventListener('click', showHomePage);
 libraryBtn.addEventListener('click', showLibraryPage);
-loadMoreButton.addEventListener('click', loadMoreMovies);
 searchButton.addEventListener('click', performSearch);
 
 // Initialization
@@ -34,32 +34,31 @@ init();
 // Functions
 function init() {
   showHomePage();
+  fetchGenres();
 }
 
 function showHomePage() {
   homePage.style.display = 'block';
-  loadMoreButton.style.display = 'none';
   gallery.innerHTML = '';
-  getMovies('trending/movie/day');
+  currentContext = 'home';
+  page = 1;
+  getMovies('trending/all/day');
 }
 
 function showLibraryPage() {
   Notiflix.Notify.info('Library functionality will be implemented later.');
 }
 
-function loadMoreMovies() {
-  page++;
-  const endpoint =
-    searchInput.value.trim() === '' ? 'trending/movie/day' : 'search/movie';
-  getMovies(endpoint);
-}
-
-function getMovies(endpoint) {
+function getMovies(endpoint, query = '') {
   axios
-    .get(`${BASE_URL}/${endpoint}?api_key=${API_KEY}&page=${page}`)
+    .get(
+      `${BASE_URL}/${endpoint}?api_key=${API_KEY}&query=${query}&page=${page}`
+    )
     .then(response => {
+      const totalPages = response.data.total_pages;
       const movies = response.data.results;
       renderMovies(movies);
+      createPagination(totalPages);
     })
     .catch(error => {
       console.error('Error fetching movies:', error);
@@ -74,7 +73,6 @@ function renderMovies(movies) {
     fragment.appendChild(card);
   });
   gallery.appendChild(fragment);
-  loadMoreButton.style.display = 'block';
 }
 
 function createMovieCard(movie) {
@@ -103,41 +101,26 @@ function createMovieCard(movie) {
   return card;
 }
 
-function showMovieDetails(movie) {
-  if (typeof movie === 'number') {
-    axios
-      .get(`${BASE_URL}/movie/${movie}?api_key=${API_KEY}`)
-      .then(response => {
-        const movieDetails = response.data;
-        renderMovieDetails(movieDetails);
-        showModal();
-      })
-      .catch(error => {
-        console.error('Error fetching movie details:', error);
-        Notiflix.Notify.failure(
-          'Oops! Something went wrong. Please try again.'
-        );
-      });
-  } else {
-    const { title, overview, release_date, vote_average, genres } = movie;
-
-    const detailsHTML = `
-      <h2>${title} (${getReleaseYear(release_date)})</h2>
-      <p><strong>Genres:</strong> ${getGenres(genres)}</p>
-      <p><strong>Rating:</strong> ${vote_average}</p>
-      <p><strong>Overview:</strong> ${overview}</p>
-    `;
-
-    movieDetailsContainer.innerHTML = detailsHTML;
-    showModal();
-  }
+function fetchGenres() {
+  axios
+    .get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
+    .then(response => {
+      genresList = response.data.genres;
+    })
+    .catch(error => console.error('Error fetching genres:', error));
 }
 
-function getGenres(genres) {
-  if (!genres || !Array.isArray(genres)) {
+function getGenres(genreIds) {
+  if (!genreIds || !Array.isArray(genreIds)) {
     return 'N/A';
   }
-  return genres.map(genre => genre.name).join(', ');
+
+  return genreIds
+    .map(genreId => {
+      const genre = genresList.find(g => g.id === genreId);
+      return genre ? genre.name : 'N/A';
+    })
+    .join(', ');
 }
 
 function getReleaseYear(releaseDate) {
@@ -145,6 +128,7 @@ function getReleaseYear(releaseDate) {
 }
 
 function performSearch() {
+  currentContext = 'search';
   const searchTerm = searchInput.value.trim();
   if (searchTerm === '') {
     Notiflix.Notify.warning('Please enter a search term.');
@@ -156,19 +140,23 @@ function performSearch() {
 }
 
 function searchMovies(searchTerm) {
+  clearGallery();
+  page = 1;
   axios
     .get(
       `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
     )
     .then(response => {
+      const totalPages = response.data.total_pages;
+      const totalItems = response.data.total_results;
       const movies = response.data.results;
 
       if (movies.length === 0) {
         Notiflix.Notify.info('No movies found for the search term.');
       } else {
-        Notiflix.Notify.success(`Hooray! We found ${movies.length} movies.`);
+        Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
         renderMovies(movies);
-        showLoadMoreButton();
+        createPagination(totalPages);
       }
     })
     .catch(error => {
@@ -181,6 +169,53 @@ function clearGallery() {
   gallery.innerHTML = '';
 }
 
-function showLoadMoreButton() {
-  loadMoreButton.style.display = 'block';
+function createPagination(totalPages) {
+  const paginationContainer = document.querySelector('.pagination-container');
+  paginationContainer.innerHTML = '';
+
+  let maxPagesToShow = totalPages;
+  currentContext === 'home' ? 5 : 10;
+
+  let startPage = Math.max(page - Math.floor(maxPagesToShow / 2), 1);
+  let endPage = startPage + maxPagesToShow - 1;
+
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    const pageButton = document.createElement('button');
+    pageButton.textContent = i;
+    pageButton.classList.toggle('active', i === page);
+
+    pageButton.addEventListener('click', () => loadPageResults(i));
+    paginationContainer.appendChild(pageButton);
+  }
+}
+
+function loadPageResults(pageNumber) {
+  page = pageNumber;
+
+  const endpoint =
+    currentContext === 'home' ? 'trending/all/day' : 'search/movie';
+  const query = currentContext === 'search' ? searchInput.value.trim() : '';
+
+  axios
+    .get(
+      `${BASE_URL}/${endpoint}?api_key=${API_KEY}&query=${query}&page=${page}`
+    )
+    .then(response => {
+      const movies = response.data.results;
+      if (movies.length === 0) {
+        Notiflix.Notify.info('No movies found for this page.');
+        return;
+      }
+      clearGallery();
+      renderMovies(movies);
+    })
+    .catch(error => {
+      console.error('Error fetching page results:', error);
+      Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
+    });
 }
