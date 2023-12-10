@@ -38,3 +38,7 @@ body {
   height: 398px;
   border-radius: 5px;
 }
+
+.paginationjs-pages ul {
+  list-style: none;
+}
