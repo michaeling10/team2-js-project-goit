@@ -32,12 +32,6 @@ searchButton.addEventListener('click', performSearch);
 // Initialization
 init();
 
-// Functions
-function init() {
-  showHomePage();
-  fetchGenres();
-}
-
 function showHomePage() {
   homePage.style.display = 'block';
   gallery.innerHTML = '';
@@ -104,15 +98,6 @@ function createMovieCard(movie) {
   return card;
 }
 
-function fetchGenres() {
-  axios
-    .get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
-    .then(response => {
-      genresList = response.data.genres;
-    })
-    .catch(error => console.error('Error fetching genres:', error));
-}
-
 async function init() {
   try {
     genresList = await getGenresList();
@@ -122,6 +107,7 @@ async function init() {
   }
 }
 
+// Modal con la información de la película
 function showMovieDetailsInModal(movie) {
   if (typeof movie === 'number') {
     axios
@@ -144,6 +130,7 @@ function showMovieDetailsInModal(movie) {
         overview,
         release_date,
         vote_average,
+        vote_count,
         genre_ids,
         popularity,
         original_title,
@@ -156,14 +143,16 @@ function showMovieDetailsInModal(movie) {
             <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
           </div>
           <div class="movie-info-container">
-            <h2>${title} (${getReleaseYear(release_date)})</h2>
-            <p><strong>Genres:</strong> ${
+            <h2>${title} (${getReleaseYear(release_date)})</h2>            
+            <p><strong>Vote / Votes</strong> ${vote_average.toFixed(
+              1
+            )} / ${vote_count}</p>
+            <p><strong>Popularity</strong> ${popularity}</p>
+            <p><strong>Original Title</strong> ${original_title}</p>
+            <p><strong>Genre</strong> ${
               getGenres ? getGenres(genre_ids, genresList) : 'N/A'
             }</p>
-            <p><strong>Rating:</strong> ${vote_average}</p>
-            <p><strong>Popularity:</strong> ${popularity}</p>
-            <p><strong>Original Title:</strong> ${original_title}</p>
-            <p><strong>Overview:</strong> ${overview}</p>
+            <p><strong>ABOUT:</strong> ${overview}</p>
           </div>
         </div>
       `;
@@ -176,6 +165,8 @@ function showMovieDetailsInModal(movie) {
     }
   }
 }
+
+// Cómo opera el Modal
 function showModal() {
   modal.style.display = 'block';
 
@@ -210,6 +201,7 @@ async function getGenresList() {
   }
 }
 
+// Comparación entre la lista de géneros y los ID de los géneros
 function getGenres(genreIds, genresList) {
   if (!genreIds || !Array.isArray(genreIds) || genreIds.length === 0) {
     return 'N/A';
