@@ -115,6 +115,15 @@ function fetchGenres() {
 
 let genresList;
 
+async function init() {
+  try {
+    genresList = await getGenresList();
+    showHomePage();
+  } catch (error) {
+    console.error('Error initializing:', error);
+  }
+}
+
 function showMovieDetailsInModal(movie) {
   if (typeof movie === 'number') {
     axios
