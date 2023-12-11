@@ -13,6 +13,8 @@ const searchButton = document.getElementById('searchButton');
 const mybutton = document.getElementById('back-to-top-btn');
 const movieDetailsContainer = document.getElementById('movie-details-modal');
 const modal = document.getElementById('myModal');
+const watchedButton = document.getElementById('watchedButton');
+const queueButton = document.getElementById('queueButton');
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -23,31 +25,44 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
 let page = 1;
 let currentContext = 'home';
 let genresList;
+let currentPage = 1;
+const moviesPerPage = 20;
 
 // Event Listeners
 homeBtn.addEventListener('click', showHomePage);
 libraryBtn.addEventListener('click', showLibraryPage);
 searchButton.addEventListener('click', performSearch);
+watchedButton.addEventListener('click', displayWatchedMovies);
+queueButton.addEventListener('click', displayQueueMovies);
 
 // Initialization
 init();
 
 // Functions
 function init() {
-  showHomePage();
+  showLibraryPage();
   fetchGenres();
 }
 
 function showHomePage() {
-  homePage.style.display = 'block';
   gallery.innerHTML = '';
   currentContext = 'home';
   page = 1;
   getMovies('trending/all/day');
+  searchInput.style.display = 'block';
+  searchButton.style.display = 'block';
+  watchedButton.style.display = 'none';
+  queueButton.style.display = 'none';
 }
 
 function showLibraryPage() {
-  Notiflix.Notify.info('Library functionality will be implemented later.');
+  Notiflix.Notify.info('Personal Library displayed');
+  searchInput.style.display = 'none';
+  searchButton.style.display = 'none';
+  watchedButton.style.display = 'block';
+  queueButton.style.display = 'block';
+  currentContext = 'watched';
+  displayWatchedMovies();
 }
 
 function getMovies(endpoint, query = '') {
@@ -140,17 +155,17 @@ function showMovieDetailsInModal(movie) {
   } else {
     try {
       const {
-      title,
-      overview,
-      release_date,
-      vote_average,
-      genres,
-      popularity,
-      original_title,
-      poster_path,
-    } = movie;
+        title,
+        overview,
+        release_date,
+        vote_average,
+        genres,
+        popularity,
+        original_title,
+        poster_path,
+      } = movie;
 
-    const detailsHTML = `
+      const detailsHTML = `
       <div class="movie-details-container">
         <div class="movie-image-container">
           <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
@@ -180,6 +195,16 @@ function showMovieDetailsInModal(movie) {
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
     }
   }
+  document
+    .querySelector('.btn-add-watched')
+    .addEventListener('click', function () {
+      addToWatched(movie);
+    });
+  document
+    .querySelector('.btn-add-queue')
+    .addEventListener('click', function () {
+      addToQueue(movie);
+    });
 }
 function showModal() {
   modal.style.display = 'block';
@@ -287,18 +312,23 @@ function createPagination(totalPages) {
     pageSize: 1,
     callback: function (data, pagination) {
       const pageNumber = pagination.pageNumber;
-      const endpoint =
-        currentContext === 'home' ? 'trending/all/day' : 'search/movie';
-      const query = currentContext === 'search' ? searchInput.value.trim() : '';
+      if (currentContext === 'watched' || currentContext === 'queue') {
+        paginateLocalStorage(currentContext, pagination.pageNumber);
+      } else {
+        const endpoint =
+          currentContext === 'home' ? 'trending/all/day' : 'search/movie';
+        const query =
+          currentContext === 'search' ? searchInput.value.trim() : '';
 
-      getMovieData(endpoint, query, pageNumber)
-        .then(response => {
-          clearGallery();
-          renderMovies(response.data.results);
-        })
-        .catch(error => {
-          console.error('Error fetching page results:', error);
-        });
+        getMovieData(endpoint, query, pageNumber)
+          .then(response => {
+            clearGallery();
+            renderMovies(response.data.results);
+          })
+          .catch(error => {
+            console.error('Error fetching page results:', error);
+          });
+      }
     },
   });
 }
@@ -321,3 +351,68 @@ window.onscroll = function () {
 mybutton.addEventListener('click', function () {
   document.documentElement.scrollTop = 0;
 });
+
+//WATCHED & QUEUE
+
+function addToWatched(movie) {
+  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  watchedMovies.push(movie);
+  localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
+  Notiflix.Notify.success('Added to Watched');
+}
+
+function addToQueue(movie) {
+  let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
+  queueMovies.push(movie);
+  localStorage.setItem('queueMovies', JSON.stringify(queueMovies));
+  Notiflix.Notify.success('Added to Queue');
+}
+
+function displayWatchedMovies() {
+  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  clearGallery();
+  currentContext = 'watched';
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+  watchedMovies.slice(startIndex, endIndex).forEach(movie => {
+    const card = createMovieCard(movie);
+    gallery.appendChild(card);
+  });
+
+  const numberPages = Math.ceil(watchedMovies.length / moviesPerPage);
+  createPagination(numberPages, currentPage, currentContext);
+}
+
+function displayQueueMovies() {
+  currentContext = 'queue';
+  clearGallery();
+  let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+  queueMovies.slice(startIndex, endIndex).forEach(movie => {
+    const card = createMovieCard(movie);
+    gallery.appendChild(card);
+  });
+
+  const numberPages = Math.ceil(queueMovies.length / moviesPerPage);
+  createPagination(numberPages, currentPage, currentContext);
+}
+
+function paginateLocalStorage(context, pageNumber) {
+  let movies;
+  if (currentContext === 'watched') {
+    movies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  } else {
+    movies = JSON.parse(localStorage.getItem('queueMovies')) || [];
+  }
+
+  const startIndex = (pageNumber - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+  const pagedMovies = movies.slice(startIndex, endIndex);
+
+  clearGallery();
+  pagedMovies.forEach(movie => {
+    const card = createMovieCard(movie);
+    gallery.appendChild(card);
+  });
+}
