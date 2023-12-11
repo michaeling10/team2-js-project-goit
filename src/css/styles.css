@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 * {
@@ -7,13 +8,7 @@
 .movie-details-container {
   display: flex;
 }
-/* .movie-image-container{
-background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat;
 
-} */
 .movie-image {
   max-width: auto; /* Ancho deseado del contenedor */
   height: 477.8px; /* Altura deseada del contenedor */
@@ -93,3 +88,8 @@ body {
   height: 398px;
   border-radius: 5px;
 }
+
+.paginationjs-pages ul {
+  list-style: none;
+}
+
