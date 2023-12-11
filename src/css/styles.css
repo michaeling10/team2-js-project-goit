@@ -15,7 +15,251 @@
   border-radius: 5px;
 }
 /* styles.css */
+
+
+
+
+
+
 /* Estilos del modal */
+
+@media (max-width: 320px){
+  .modal-content {
+    background-color: #fefefe;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #888;
+    width: 280px;
+    height:958px ;
+    /* width: 90%; */
+    
+  }
+  .movie-image-container{
+    margin: 48px 20px 0 20px;
+  }
+  .movie-image{
+    width: 240px;
+    height: 356px;
+  }
+  .movie-details-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .movie-info-btn-container{
+    margin: 30px 20px 0px 20px;
+  }
+
+  .movie-button{
+    display: flex;
+  }
+  .btn-add-queue{
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border: 1px solid #000;
+    width: 112.5px;
+    height: 44px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+  }
+  .btn-add-watched{
+    border: none;
+    border-radius: 5px;
+    background: #FF6B01;
+    width: 112.5px;
+    height: 44px;
+    color: #FFF;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+  .movie-info-container strong {
+    width: 106px;
+    margin-bottom: 10px;
+    color: #8c8c8c
+  }
+} 
+
+@media (min-width:320px) and (max-width: 768px){
+  .modal-content {
+    background-color: #fefefe;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #888;
+    height:562px ;
+
+    width: 618px;
+    
+  }
+
+  .movie-image-container{
+    margin: 42px 32px 0px 28px;
+  }
+  .movie-image{
+    width: 264px;
+    height: 373.5px;
+  }
+  .movie-info-container {
+    margin: 42px 30px 20px 0; 
+  }
+
+  
+  .movie-info-container strong {
+    width: 106px;
+    margin-bottom: 10px;
+    color: #8c8c8c
+  }
+
+  .btn-add-queue{
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border: 1px solid #000;
+    width: 125px;
+    height: 44px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+  }
+  .btn-add-watched{
+    border: none;
+    border-radius: 5px;
+    background: #FF6B01;
+    width: 125px;
+    height: 44px;
+    color: #FFF;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+
+
+
+
+}
+
+@media (min-width: 769px){
+  .modal-content {
+    background-color: #fefefe;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border: 1px solid #888;
+    width: 882px;
+    height:568px ;
+    
+  }
+  .movie-details-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+  }
+  .movie-image-container{
+    width: 396px;
+    height: 477.8px;
+    margin: 50px 30px 40px 30px;
+  }
+
+  .movie-info-container{
+    margin: 50px 30px 20px 0;
+  }
+
+  .movie-image{
+    width: 396px;
+  }
+  .movie-info-container h2{
+    margin: 0;
+    color: #000;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .movie-info-container h2{
+    color: #000;
+    font-family: Roboto;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  .movie-info-container strong{
+    width: 200px;
+    margin-bottom: 10px;
+    color: #8c8c8c
+  }
+
+  .btn-add-queue{
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border: 1px solid #000;
+    width: 136px;
+    height: 44px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+  }
+  .btn-add-watched{
+    border: none;
+    border-radius: 5px;
+    background: #FF6B01;
+    width: 136px;
+    height: 44px;
+    color: #FFF;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+
+
+
+
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -30,12 +274,35 @@
   padding-top: 60px;
 }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+.movie-info-container p {
+ 
+  
+  color: #000;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; 
+  display: flex;
+  flex-direction: row;
+ 
+}
+
+.movie-info-container p:first-child{
+  color:  #FF6B01;
+  width: 36px;
+  height: 16px;
+  
+}
+
+.movie-info-container p:last-child{
+  flex-direction: column;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 133.333% */
+  text-transform: uppercase;
 }
 
 .close {
@@ -43,6 +310,9 @@
   float: right;
   font-size: 28px;
   font-weight: bold;
+  position: fixed;
+  top: 10px;
+  right: 10px;
 }
 
 .close:hover,
@@ -53,6 +323,15 @@
 }
 
 /* hasta aquí */
+
+
+
+
+
+
+
+
+
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,

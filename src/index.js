@@ -140,30 +140,35 @@ function showMovieDetailsInModal(movie) {
   } else {
     try {
       const {
-        title,
-        overview,
-        release_date,
-        vote_average,
-        genre_ids,
-        popularity,
-        original_title,
-        poster_path,
-      } = movie;
+      title,
+      overview,
+      release_date,
+      vote_average,
+      genres,
+      popularity,
+      original_title,
+      poster_path,
+    } = movie;
 
-      const detailsHTML = `
-        <div class="movie-details-container">
-          <div class="movie-image-container">
-            <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
-          </div>
+    const detailsHTML = `
+      <div class="movie-details-container">
+        <div class="movie-image-container">
+          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+        </div>
+        <div class ="movie-info-btn-container">
+      
           <div class="movie-info-container">
             <h2>${title} (${getReleaseYear(release_date)})</h2>
-            <p><strong>Genres:</strong> ${
-              getGenres ? getGenres(genre_ids, genresList) : 'N/A'
-            }</p>
-            <p><strong>Rating:</strong> ${vote_average}</p>
-            <p><strong>Popularity:</strong> ${popularity}</p>
-            <p><strong>Original Title:</strong> ${original_title}</p>
-            <p><strong>Overview:</strong> ${overview}</p>
+            <p><strong>Vote / Votes</strong> ${vote_average}</p>
+            <p><strong>Popularity</strong> ${popularity}</p>
+            <p><strong>Original Title</strong> ${original_title}</p>
+            <p><strong>Genres:</strong> ${getGenres(genres)}</p>
+
+            <p><strong>Overview</strong> ${overview}</p>
+          </div>
+          <div class="movie-button">
+            <button class="btn-add-watched">ADD TO WATCHED</button>
+            <button class="btn-add-queue">ADD TO QUEUE</button>
           </div>
         </div>
       `;
