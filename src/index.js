@@ -1,3 +1,4 @@
+
 'use-strict';
 //Imports
 import axios from 'axios';
@@ -77,26 +78,28 @@ function renderMovies(movies) {
 function createMovieCard(movie) {
   const card = document.createElement('div');
   card.classList.add('movie-card');
+
   const img = document.createElement('img');
   img.classList.add('movie-img');
-  img.src = movie.poster_path
-    ? `${IMAGE_BASE_URL}${movie.poster_path}`
-    : 'url_to_default_image.jpg';
+  img.src = `${IMAGE_BASE_URL}${movie.poster_path}`;
   img.alt = movie.title;
+
   const movieInfo = document.createElement('div');
   movieInfo.classList.add('movie-info');
-  movieInfo.innerHTML = `<p class="movie-title">${movie.title}</p>
-                           <p class="movie-genres">${getGenres(
-                             movie.genres
-                           )}</p>
-                           <p class="movie-release">${getReleaseYear(
-                             movie.release_date
-                           )}</p>`;
+  movieInfo.innerHTML = `
+    <p class="movie-title">${movie.title}</p>
+    <p class="movie-genres">${getGenres(movie.genre_ids, genresList)}</p>
+    <p class="movie-release">${getReleaseYear(movie.release_date)}</p>
+  `;
+
   card.appendChild(img);
   card.appendChild(movieInfo);
-  card.addEventListener('click', () => {
-    showMovieDetails(movie);
+
+  card.addEventListener('click', event => {
+    event.preventDefault();
+    showMovieDetailsInModal(movie);
   });
+
   return card;
 }
 
@@ -109,18 +112,120 @@ function fetchGenres() {
     .catch(error => console.error('Error fetching genres:', error));
 }
 
-function getGenres(genreIds) {
-  if (!genreIds || !Array.isArray(genreIds)) {
+
+let genresList;
+
+async function init() {
+  try {
+    genresList = await getGenresList();
+    showHomePage();
+  } catch (error) {
+    console.error('Error initializing:', error);
+  }
+}
+
+function showMovieDetailsInModal(movie) {
+  if (typeof movie === 'number') {
+    axios
+      .get(`${BASE_URL}/movie/${movie}?api_key=${API_KEY}`)
+      .then(response => {
+        const movieDetails = response.data;
+        renderMovieDetailsInModal(movieDetails);
+        showModal();
+      })
+      .catch(error => {
+        console.error('Error fetching movie details:', error);
+        Notiflix.Notify.failure(
+          'Oops! Something went wrong. Please try again.'
+        );
+      });
+  } else {
+    try {
+      const {
+        title,
+        overview,
+        release_date,
+        vote_average,
+        genre_ids,
+        popularity,
+        original_title,
+        poster_path,
+      } = movie;
+
+      const detailsHTML = `
+        <div class="movie-details-container">
+          <div class="movie-image-container">
+            <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+          </div>
+          <div class="movie-info-container">
+            <h2>${title} (${getReleaseYear(release_date)})</h2>
+            <p><strong>Genres:</strong> ${
+              getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+            }</p>
+            <p><strong>Rating:</strong> ${vote_average}</p>
+            <p><strong>Popularity:</strong> ${popularity}</p>
+            <p><strong>Original Title:</strong> ${original_title}</p>
+            <p><strong>Overview:</strong> ${overview}</p>
+          </div>
+        </div>
+      `;
+
+      movieDetailsContainer.innerHTML = detailsHTML;
+      showModal();
+    } catch (error) {
+      console.error('Error processing movie details:', error);
+      Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
+    }
+  }
+}
+function showModal() {
+  modal.style.display = 'block';
+
+  const span = document.querySelector('.close');
+  span.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', event => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      modal.style.display = 'none';
+    }
+  });
+}
+
+// Función para obtener la lista de géneros
+async function getGenresList() {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
+    );
+    return response.data.genres;
+  } catch (error) {
+    console.error('Error fetching genres list:', error);
+    throw error;
+  }
+}
+
+function getGenres(genreIds, genresList) {
+  if (!genreIds || !Array.isArray(genreIds) || genreIds.length === 0) {
     return 'N/A';
   }
 
-  return genreIds
-    .map(genreId => {
-      const genre = genresList.find(g => g.id === genreId);
-      return genre ? genre.name : 'N/A';
-    })
-    .join(', ');
+  const genreNames = genreIds.map(id => {
+    const genre = genresList.find(genre => genre.id === id);
+    return genre ? genre.name : 'Unknown Genre';
+  });
+
+  return genreNames.join(', ');
 }
+
+
 
 function getReleaseYear(releaseDate) {
   return releaseDate ? releaseDate.slice(0, 4) : 'N/A';
@@ -215,3 +320,4 @@ window.onscroll = function () {
 mybutton.addEventListener('click', function () {
   document.documentElement.scrollTop = 0;
 });
+
