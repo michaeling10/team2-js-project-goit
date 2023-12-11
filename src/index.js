@@ -40,12 +40,13 @@ init();
 
 // Functions
 function init() {
-  showLibraryPage();
-  fetchGenres();
+  /* showLibraryPage(); */
+  /* fetchGenres(); */
 }
 
 function showHomePage() {
   gallery.innerHTML = '';
+  searchInput.value = '';
   currentContext = 'home';
   page = 1;
   getMovies('trending/all/day');
