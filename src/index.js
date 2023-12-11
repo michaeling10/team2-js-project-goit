@@ -1,4 +1,3 @@
-// index.js
 'use strict';
 
 import axios from 'axios';
@@ -83,7 +82,7 @@ function createMovieCard(movie) {
   movieInfo.classList.add('movie-info');
   movieInfo.innerHTML = `
     <p class="movie-title">${movie.title}</p>
-    <p class="movie-genres">${getGenres(movie.genres)}</p>
+    <p class="movie-genres">${getGenres(movie.genre_ids, genresList)}</p>
     <p class="movie-release">${getReleaseYear(movie.release_date)}</p>
   `;
 
@@ -91,11 +90,22 @@ function createMovieCard(movie) {
   card.appendChild(movieInfo);
 
   card.addEventListener('click', event => {
-    event.preventDefault(); // Evitar la acción predeterminada (por ejemplo, seguir un enlace)
+    event.preventDefault();
     showMovieDetailsInModal(movie);
   });
 
   return card;
+}
+
+let genresList;
+
+async function init() {
+  try {
+    genresList = await getGenresList();
+    showHomePage();
+  } catch (error) {
+    console.error('Error initializing:', error);
+  }
 }
 
 function showMovieDetailsInModal(movie) {
@@ -114,38 +124,44 @@ function showMovieDetailsInModal(movie) {
         );
       });
   } else {
-    const {
-      title,
-      overview,
-      release_date,
-      vote_average,
-      genres,
-      popularity,
-      original_title,
-      poster_path,
-    } = movie;
+    try {
+      const {
+        title,
+        overview,
+        release_date,
+        vote_average,
+        genre_ids,
+        popularity,
+        original_title,
+        poster_path,
+      } = movie;
 
-    const detailsHTML = `
-      <div class="movie-details-container">
-        <div class="movie-image-container">
-          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+      const detailsHTML = `
+        <div class="movie-details-container">
+          <div class="movie-image-container">
+            <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+          </div>
+          <div class="movie-info-container">
+            <h2>${title} (${getReleaseYear(release_date)})</h2>
+            <p><strong>Genres:</strong> ${
+              getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+            }</p>
+            <p><strong>Rating:</strong> ${vote_average}</p>
+            <p><strong>Popularity:</strong> ${popularity}</p>
+            <p><strong>Original Title:</strong> ${original_title}</p>
+            <p><strong>Overview:</strong> ${overview}</p>
+          </div>
         </div>
-        <div class="movie-info-container">
-          <h2>${title} (${getReleaseYear(release_date)})</h2>
-          <p><strong>Genres:</strong> ${getGenres(genres)}</p>
-          <p><strong>Rating:</strong> ${vote_average}</p>
-          <p><strong>Popularity:</strong> ${popularity}</p>
-          <p><strong>Original Title:</strong> ${original_title}</p>
-          <p><strong>Overview:</strong> ${overview}</p>
-        </div>
-      </div>
-    `;
+      `;
 
-    movieDetailsContainer.innerHTML = detailsHTML;
-    showModal();
+      movieDetailsContainer.innerHTML = detailsHTML;
+      showModal();
+    } catch (error) {
+      console.error('Error processing movie details:', error);
+      Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
+    }
   }
 }
-
 function showModal() {
   modal.style.display = 'block';
 
@@ -167,11 +183,30 @@ function showModal() {
   });
 }
 
-function getGenres(genres) {
-  if (!genres || !Array.isArray(genres)) {
+// Función para obtener la lista de géneros
+async function getGenresList() {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
+    );
+    return response.data.genres;
+  } catch (error) {
+    console.error('Error fetching genres list:', error);
+    throw error;
+  }
+}
+
+function getGenres(genreIds, genresList) {
+  if (!genreIds || !Array.isArray(genreIds) || genreIds.length === 0) {
     return 'N/A';
   }
-  return genres.map(genre => genre.name).join(', ');
+
+  const genreNames = genreIds.map(id => {
+    const genre = genresList.find(genre => genre.id === id);
+    return genre ? genre.name : 'Unknown Genre';
+  });
+
+  return genreNames.join(', ');
 }
 
 function getReleaseYear(releaseDate) {
