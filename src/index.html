@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"
+    />
     <link rel="stylesheet" href="./css/styles.css" />
     <title>Filmoteka</title>
   </head>
@@ -18,23 +25,31 @@
       <div id="home-page">
         <h1>Popular Movies</h1>
         <div class="gallery"></div>
-        <div class="pagination-container"></div>
+        <div id="pagination-container"></div>
+        <button
+          id="back-to-top-btn"
+          style="display: none; position: fixed; bottom: 20px; right: 20px"
+        >
+          ↑ Go back up
+        </button>
       </div>
 
-      <div id="modal" class="modal">
+      <!-- Modal -->
+      <div id="myModal" class="modal">
         <div class="modal-content">
           <span class="close">&times;</span>
-          <div id="movie-details"></div>
+          <div id="movie-details-modal">
+          </div>
         </div>
       </div>
+      <!-- End Modal -->
     </main>
-
+    <div>
+      
+    </div>
     <footer>
       <p>© 2023 | All Rights Reserved | Developed with 🧡 by GoIT Students</p>
     </footer>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
-    <script src="./index.js" type="module"></script>
+ <script src="./index.js" type="module"></script>
   </body>
 </html>
