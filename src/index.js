@@ -1,4 +1,3 @@
-
 'use-strict';
 //Imports
 import axios from 'axios';
@@ -12,6 +11,8 @@ const gallery = document.querySelector('.gallery');
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
 const mybutton = document.getElementById('back-to-top-btn');
+const movieDetailsContainer = document.getElementById('movie-details-modal');
+const modal = document.getElementById('myModal');
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -21,7 +22,7 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
 // Global Variables
 let page = 1;
 let currentContext = 'home';
-let genresList = [];
+let genresList;
 
 // Event Listeners
 homeBtn.addEventListener('click', showHomePage);
@@ -111,9 +112,6 @@ function fetchGenres() {
     })
     .catch(error => console.error('Error fetching genres:', error));
 }
-
-
-let genresList;
 
 async function init() {
   try {
@@ -225,8 +223,6 @@ function getGenres(genreIds, genresList) {
   return genreNames.join(', ');
 }
 
-
-
 function getReleaseYear(releaseDate) {
   return releaseDate ? releaseDate.slice(0, 4) : 'N/A';
 }
@@ -320,4 +316,3 @@ window.onscroll = function () {
 mybutton.addEventListener('click', function () {
   document.documentElement.scrollTop = 0;
 });
-

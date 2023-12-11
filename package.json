@@ -21,7 +21,7 @@
     "axios": "^1.6.2",
     "modern-normalize": "^1.1.0",
     "notiflix": "^3.2.6",
-    "paginationjs": "^2.6.0",
+    "paginationjs": "^2.6.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.6.0",
