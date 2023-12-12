@@ -29,32 +29,6 @@ let genresList;
 homeBtn.addEventListener('click', showHomePage);
 libraryBtn.addEventListener('click', showLibraryPage);
 searchButton.addEventListener('click', performSearch);
-homeBtn.addEventListener('click', () => {
-  // Muestra el loader antes de cargar el Home
-  showLoader();
-
-  // Simula una carga (aquí deberías poner la lógica real de carga del Home)
-  setTimeout(() => {
-    hideLoader();
-    showHomePage(); // Muestra la página después de cargar y ocultar el loader
-  }, 1000);
-});
-searchButton.addEventListener('click', () => {
-  // Muestra el loader antes de realizar la búsqueda
-  showLoader();
-
-  // Lógica para la búsqueda de películas (aquí deberías poner tu lógica real de búsqueda)
-  const searchTerm = searchInput.value.trim();
-  if (searchTerm === '') {
-    hideLoader();
-    Notiflix.Notify.warning('Please enter a search term.');
-    return;
-  }
-
-  clearGallery();
-  page = 1;
-  searchMovies(searchTerm);
-});
 
 // Initialization
 init();
@@ -67,19 +41,30 @@ function hideLoader() {
   loader.style.display = 'none';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  showLoader();
-  setTimeout(() => {
-    hideLoader();
-  }, 1000);
-});
+function showPageContent() {
+  document.body.classList.remove('hidden');
+  const onloadElement = document.getElementById('onload');
+  if (onloadElement) {
+    onloadElement.classList.remove('loader-position');
+  }
+}
 
 function showHomePage() {
+  document.body.classList.add('hidden');
+  document.getElementById('onload').classList.add('loader-position');
   homePage.style.display = 'block';
   gallery.innerHTML = '';
   currentContext = 'home';
   page = 1;
-  getMovies('trending/all/day');
+  showLoader();
+
+  setTimeout(function () {
+    getMovies('trending/all/day');
+    setTimeout(function () {
+      hideLoader();
+      showPageContent();
+    }); // Ajusta el tiempo según sea necesario
+  }, 1000);
 }
 
 function showLibraryPage() {
@@ -262,43 +247,56 @@ function getReleaseYear(releaseDate) {
 }
 
 function performSearch() {
+  document.body.classList.add('hidden');
+  document.getElementById('onload').classList.add('loader-position');
   currentContext = 'search';
   const searchTerm = searchInput.value.trim();
   if (searchTerm === '') {
     Notiflix.Notify.warning('Please enter a search term.');
     return;
   }
+  showLoader();
   clearGallery();
   page = 1;
-  searchMovies(searchTerm);
-}
-
-function searchMovies(searchTerm) {
-  clearGallery();
-  page = 1;
-  axios
-    .get(
-      `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
-    )
-    .then(response => {
-      const totalPages = response.data.total_pages;
-      const totalItems = response.data.total_results;
-      const movies = response.data.results;
-
-      if (movies.length === 0) {
-        Notiflix.Notify.info('No movies found for the search term.');
-      } else {
-        Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
-        renderMovies(movies);
-        createPagination(totalPages);
-      }
-      hideLoader();
+  searchMovies(searchTerm)
+    .then(() => {
+      setTimeout(function () {
+        hideLoader();
+        showPageContent();
+      }, 1000);
     })
     .catch(error => {
       console.error('Error fetching movies:', error);
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
       hideLoader();
     });
+}
+
+function searchMovies(searchTerm) {
+  clearGallery();
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
+      )
+      .then(response => {
+        const totalPages = response.data.total_pages;
+        const totalItems = response.data.total_results;
+        const movies = response.data.results;
+
+        if (movies.length === 0) {
+          Notiflix.Notify.info('No movies found for the search term.');
+        } else {
+          Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
+          renderMovies(movies);
+          createPagination(totalPages);
+        }
+        resolve();
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 }
 
 function clearGallery() {

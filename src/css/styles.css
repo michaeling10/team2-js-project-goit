@@ -93,7 +93,9 @@ body {
 }
 
 /* Loader */
-
+.hidden {
+  overflow: hidden;
+}
 .loader {
   width: 48px;
   height: 48px;
@@ -103,6 +105,14 @@ body {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+.loader-position {
+  background: #ffff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes rotation {

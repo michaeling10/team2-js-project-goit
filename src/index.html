@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <title>Filmoteka</title>
   </head>
-  <body>
+  <body class="hidden">
     <header>
       <button id="home-btn">Home</button>
       <button id="library-btn">My Library</button>
@@ -22,7 +22,9 @@
     </header>
 
     <main id="main-content">
-      <span class="loader"></span>
+      <div class="loader-position" id="onload">
+        <span class="loader"></span>
+      </div>
       <div id="home-page">
         <h1>Popular Movies</h1>
         <div class="gallery"></div>
