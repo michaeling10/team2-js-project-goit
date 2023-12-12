@@ -14,8 +14,8 @@
     <title>Filmoteka</title>
   </head>
   <body>
-    <!--SECTION HEADER-->
-    <header class="header">
+    <!--HEADER-->
+    <header class="header__library">
       <div class="header__container">
         <div class="header__wraper">
           <div class="header__logo">
@@ -31,7 +31,7 @@
             <ul class="header__navigation-list">
               <li class="header__navigation-item">
                 <a
-                  class="header__navigation-btn header__navigation-btn--current"
+                  class="header__navigation-btn"
                   id="home-btn"
                   href="./index.html"
                   >HOME</a
@@ -39,7 +39,7 @@
               </li>
               <li class="header__navigation-item">
                 <a
-                  class="header__navigation-btn"
+                  class="header__navigation-btn header__navigation-btn--current"
                   id="library-btn"
                   href="./library.html"
                   >MY LIBRARY</a
@@ -48,19 +48,24 @@
             </ul>
           </nav>
         </div>
-        <div class="header__search-form">
-          <div class="header__search-container">
-            <input
-              type="text"
-              name="search"
-              id="searchInput"
-              class="header__form-input"
-              placeholder="Movie Search"
-            />
-            <button type="submit" class="header__search-btn" id="searchButton">
-              <span class="header__search-icon"></span>
-            </button>
-          </div>
+
+        <div class="header__btn-block">
+          <button
+            type="button"
+            data-value="watched"
+            class="header__btn-library"
+            id="watchedButton"
+          >
+            Watched
+          </button>
+          <button
+            type="button"
+            data-value="queue"
+            class="header__btn-library"
+            id="queueButton"
+          >
+            Queue
+          </button>
         </div>
       </div>
     </header>
@@ -75,22 +80,12 @@
         >
           ↑ Go back up
         </button>
-      </div>
-
-      <!-- Modal -->
-      <div id="myModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <div id="movie-details-modal"></div>
-        </div>
-      </div>
-      <!-- End Modal -->
     </main>
 
     <!--FOOTER-->
     <footer>
       <div class="footer__container">
-        <p class="footer__text footer-parrafo">&#169; 2023 | All Rights Reserved |</p>
+        <p class="footer__text">&#169; 2023 | All Rights Reserved |</p>
         <div class="footer__sub">
           Developed with
           <img
@@ -100,11 +95,11 @@
             width="14"
             height="14"
           />
-          <p class="footer__link open-modal-team">by GoIT Students</p>
+          <p class="footer__link">by GoIT Students</p>
         </div>
       </div>
-
     </footer>
+
     <script src="./index.js" type="module"></script>
   </body>
 </html>
