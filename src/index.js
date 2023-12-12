@@ -50,8 +50,8 @@ function showHomePage() {
   currentContext = 'home';
   page = 1;
   getMovies('trending/all/day');
-  searchInput.style.display = 'block';
-  searchButton.style.display = 'block';
+  /* searchInput.style.display = 'block';
+  searchButton.style.display = 'block'; */
   watchedButton.style.display = 'none';
   queueButton.style.display = 'none';
 }

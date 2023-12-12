@@ -19,76 +19,79 @@
       <div class="header__container">
         <div class="header__wraper">
           <div class="header__logo">
-            <a
-              href="./index.html"
-              class="header__logo-film"
-            >
+            <a href="./index.html" class="header__logo-film">
               <svg class="header__logo-svg" width="24" height="24">
-                <use
-                  class=""
-                  href="./images/film-defs.svg#icon-film"
-                ></use>
+                <use class="" href="./images/film-defs.svg#icon-film"></use>
               </svg>
               <span class="header__logo-name">Filmoteka</span>
             </a>
           </div>
-    
+
           <nav class="header__navigation">
             <ul class="header__navigation-list">
               <li class="header__navigation-item">
                 <a
-                  class="header__navigation-btn "
-                  id="home-link"
+                  class="header__navigation-btn"
+                  id="home-btn"
                   href="./index.html"
-                  >HOME</a>
+                  >HOME</a
+                >
               </li>
               <li class="header__navigation-item">
-                <a class="header__navigation-btn header__navigation-btn--current" id="library-link"
-                href="./library.html"
-                  >MY LIBRARY</a>
+                <a
+                  class="header__navigation-btn header__navigation-btn--current"
+                  id="library-btn"
+                  href="./library.html"
+                  >MY LIBRARY</a
+                >
               </li>
             </ul>
           </nav>
         </div>
-        
+
         <div class="header__btn-block">
-          <button
+          <!-- <button
             type="button"
             data-value="watched"
             class="header__btn-library"
-            id="btnWatched"
-          >Watched
+            id="watchedButton"
+          >
+            Watched
           </button>
           <button
             type="button"
             data-value="queue"
             class="header__btn-library"
-            id="btnQueue"
-          >Queue
-          </button>
+            id="queueButton"
+          >
+            Queue
+          </button> -->
+          <button id="watchedButton">WATCHED</button>
+          <button id="queueButton">QUEUE</button>
         </div>
-      </div>  
+      </div>
     </header>
-        
-    <main id="main-content">
-      
-    </main>
+
+    <main id="main-content"></main>
 
     <!--FOOTER-->
     <footer>
-        <div class="footer__container">
-          <p class="footer__text">&#169; 2023 | All Rights Reserved |</p>
-          <div class="footer__sub">Developed with
-              <img class="footer__icon N"  src="images/footer/footer_icon.png"
-              alt="footer_icon"
-              width="14"
-              height="14"
-              />
-             <p class="footer__link"> by GoIT Students</p>
-          </div>
+      <div class="footer__container">
+        <p class="footer__text">&#169; 2023 | All Rights Reserved |</p>
+        <div class="footer__sub">
+          Developed with
+          <img
+            class="footer__icon N"
+            src="images/footer/footer_icon.png"
+            alt="footer_icon"
+            width="14"
+            height="14"
+          />
+          <p class="footer__link">by GoIT Students</p>
+        </div>
       </div>
-      </footer>
-  
+    </footer>
+
     <script src="./index.js" type="module"></script>
   </body>
 </html>

@@ -14,26 +14,19 @@
     <title>Filmoteka</title>
   </head>
   <body>
-    
     <!--SECTION HEADER-->
     <header class="header">
       <div class="header__container">
         <div class="header__wraper">
           <div class="header__logo">
-            <a
-              href="./index.html"
-              class="header__logo-film"
-            >
+            <a href="./index.html" class="header__logo-film">
               <svg class="header__logo-svg" width="24" height="24">
-                <use
-                  class=""
-                  href="./images/film-defs.svg#icon-film"
-                ></use>
+                <use class="" href="./images/film-defs.svg#icon-film"></use>
               </svg>
               <span class="header__logo-name">Filmoteka</span>
             </a>
           </div>
-    
+
           <nav class="header__navigation">
             <ul class="header__navigation-list">
               <li class="header__navigation-item">
@@ -41,12 +34,16 @@
                   class="header__navigation-btn header__navigation-btn--current"
                   id="home-btn"
                   href="./index.html"
-                  >HOME</a>
+                  >HOME</a
+                >
               </li>
               <li class="header__navigation-item">
-                <a class="header__navigation-btn" id="library-btn"
-                href="./library.html"
-                  >MY LIBRARY</a>
+                <a
+                  class="header__navigation-btn"
+                  id="library-btn"
+                  href="./library.html"
+                  >MY LIBRARY</a
+                >
               </li>
             </ul>
           </nav>
@@ -60,18 +57,18 @@
               class="header__form-input"
               placeholder="Movie Search"
             />
-            <button type="submit" class="header__search-btn" id="searchButton" >
+            <button type="submit" class="header__search-btn" id="searchButton">
               <span class="header__search-icon"></span>
             </button>
+            <button id="watchedButton">WATCHED</button>
+            <button id="queueButton">QUEUE</button>
           </div>
         </div>
-      </div> 
+      </div>
     </header>
-    
 
     <main id="main-content">
       <div id="home-page">
-        
         <div class="gallery"></div>
         <div id="pagination-container"></div>
         <button
@@ -91,20 +88,23 @@
       </div>
       <!-- End Modal -->
     </main>
-    
+
     <!--FOOTER-->
     <footer>
       <div class="footer__container">
         <p class="footer__text">&#169; 2023 | All Rights Reserved |</p>
-        <div class="footer__sub">Developed with
-            <img class="footer__icon N"  src="images/footer/footer_icon.png"
+        <div class="footer__sub">
+          Developed with
+          <img
+            class="footer__icon N"
+            src="images/footer/footer_icon.png"
             alt="footer_icon"
             width="14"
             height="14"
-            />
-           <p class="footer__link open-modal-team"> by GoIT Students</p>
+          />
+          <p class="footer__link open-modal-team">by GoIT Students</p>
         </div>
-    </div>
+      </div>
     </footer>
     <script src="./index.js" type="module"></script>
   </body>
