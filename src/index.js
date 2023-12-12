@@ -1,5 +1,4 @@
-'use-strict';
-//Imports
+'use strict'; // Modo estricto activado correctamen//Imports
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
@@ -14,6 +13,9 @@ const mybutton = document.getElementById('back-to-top-btn');
 const movieDetailsContainer = document.getElementById('movie-details-modal');
 const modal = document.getElementById('myModal');
 const loader = document.querySelector('.loader');
+const watchedButton = document.getElementById('watchedButton');
+const queueButton = document.getElementById('queueButton');
+
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -24,14 +26,27 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
 let page = 1;
 let currentContext = 'home';
 let genresList;
+let currentPage = 1;
+const moviesPerPage = 20;
 
 // Event Listeners
+
 homeBtn.addEventListener('click', showHomePage);
+
 libraryBtn.addEventListener('click', showLibraryPage);
-searchButton.addEventListener('click', performSearch);
+if (searchButton) {
+  searchButton.addEventListener('click', performSearch);
+}
+if (watchedButton) {
+  watchedButton.addEventListener('click', displayWatchedMovies);
+}
+if (queueButton) {
+  queueButton.addEventListener('click', displayQueueMovies);
+}
 
 // Initialization
 init();
+
 
 // Función para el loader
 function showLoader() {
@@ -46,6 +61,19 @@ function showPageContent() {
   const onloadElement = document.getElementById('onload');
   if (onloadElement) {
     onloadElement.classList.remove('loader-position');
+
+// Functions
+async function init() {
+  try {
+    genresList = await getGenresList();
+    if (window.location.pathname.includes('library.html')) {
+      showLibraryPage();
+    } else {
+      showHomePage();
+    }
+  } catch (error) {
+    console.error('Error initializing:', error);
+
   }
 }
 
@@ -68,7 +96,10 @@ function showHomePage() {
 }
 
 function showLibraryPage() {
-  Notiflix.Notify.info('Library functionality will be implemented later.');
+  Notiflix.Notify.info('Personal Library displayed');
+  currentContext = 'watched';
+  console.log('Se cargo Library');
+  displayWatchedMovies();
 }
 
 function getMovies(endpoint, query = '') {
@@ -125,16 +156,8 @@ function createMovieCard(movie) {
   return card;
 }
 
-async function init() {
-  try {
-    genresList = await getGenresList();
-    showHomePage();
-  } catch (error) {
-    console.error('Error initializing:', error);
-  }
-}
-
 // Modal con la información de la película
+
 function showMovieDetailsInModal(movie) {
   if (typeof movie === 'number') {
     axios
@@ -165,10 +188,11 @@ function showMovieDetailsInModal(movie) {
       } = movie;
 
       const detailsHTML = `
-        <div class="movie-details-container">
-          <div class="movie-image-container">
-            <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
-          </div>
+      <div class="movie-details-container">
+        <div class="movie-image-container">
+          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+        </div>
+        <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
             <h2>${title} (${getReleaseYear(release_date)})</h2>            
             <p><strong>Vote / Votes</strong> ${vote_average.toFixed(
@@ -181,6 +205,10 @@ function showMovieDetailsInModal(movie) {
             }</p>
             <p><strong>ABOUT:</strong> ${overview}</p>
           </div>
+          <div class="movie-button">
+            <button class="btn-add-watched">ADD TO WATCHED</button>
+            <button class="btn-add-queue">ADD TO QUEUE</button>
+          </div>
         </div>
       `;
 
@@ -191,6 +219,16 @@ function showMovieDetailsInModal(movie) {
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
     }
   }
+  document
+    .querySelector('.btn-add-watched')
+    .addEventListener('click', function () {
+      addToWatched(movie);
+    });
+  document
+    .querySelector('.btn-add-queue')
+    .addEventListener('click', function () {
+      addToQueue(movie);
+    });
 }
 
 // Cómo opera el Modal
@@ -316,18 +354,23 @@ function createPagination(totalPages) {
     pageSize: 1,
     callback: function (data, pagination) {
       const pageNumber = pagination.pageNumber;
-      const endpoint =
-        currentContext === 'home' ? 'trending/all/day' : 'search/movie';
-      const query = currentContext === 'search' ? searchInput.value.trim() : '';
+      if (currentContext === 'watched' || currentContext === 'queue') {
+        paginateLocalStorage(currentContext, pagination.pageNumber);
+      } else {
+        const endpoint =
+          currentContext === 'home' ? 'trending/all/day' : 'search/movie';
+        const query =
+          currentContext === 'search' ? searchInput.value.trim() : '';
 
-      getMovieData(endpoint, query, pageNumber)
-        .then(response => {
-          clearGallery();
-          renderMovies(response.data.results);
-        })
-        .catch(error => {
-          console.error('Error fetching page results:', error);
-        });
+        getMovieData(endpoint, query, pageNumber)
+          .then(response => {
+            clearGallery();
+            renderMovies(response.data.results);
+          })
+          .catch(error => {
+            console.error('Error fetching page results:', error);
+          });
+      }
     },
   });
 }
@@ -350,3 +393,74 @@ window.onscroll = function () {
 mybutton.addEventListener('click', function () {
   document.documentElement.scrollTop = 0;
 });
+
+//WATCHED & QUEUE
+
+function addToWatched(movie) {
+  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  watchedMovies.push(movie);
+  localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
+  Notiflix.Notify.success('Added to Watched');
+}
+
+function addToQueue(movie) {
+  let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
+  queueMovies.push(movie);
+  localStorage.setItem('queueMovies', JSON.stringify(queueMovies));
+  Notiflix.Notify.success('Added to Queue');
+}
+
+function displayWatchedMovies() {
+  watchedButton.style.backgroundColor = '#ff6b08';
+  watchedButton.style.boxShadow = '0 0 15px #ff6b08';
+  watchedButton.style.border = 'none';
+  clearGallery();
+  currentContext = 'watched';
+  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+  watchedMovies.slice(startIndex, endIndex).forEach(movie => {
+    const card = createMovieCard(movie);
+    gallery.appendChild(card);
+  });
+
+  const numberPages = Math.ceil(watchedMovies.length / moviesPerPage);
+  createPagination(numberPages, currentPage, currentContext);
+}
+
+function displayQueueMovies() {
+  watchedButton.style.backgroundColor = 'transparent';
+  watchedButton.style.boxShadow = 'none';
+  watchedButton.style.border = '1px solid white';
+  currentContext = 'queue';
+  clearGallery();
+  let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+  queueMovies.slice(startIndex, endIndex).forEach(movie => {
+    const card = createMovieCard(movie);
+    gallery.appendChild(card);
+  });
+
+  const numberPages = Math.ceil(queueMovies.length / moviesPerPage);
+  createPagination(numberPages, currentPage, currentContext);
+}
+
+function paginateLocalStorage(context, pageNumber) {
+  let movies;
+  if (currentContext === 'watched') {
+    movies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  } else {
+    movies = JSON.parse(localStorage.getItem('queueMovies')) || [];
+  }
+
+  const startIndex = (pageNumber - 1) * moviesPerPage;
+  const endIndex = startIndex + moviesPerPage;
+  const pagedMovies = movies.slice(startIndex, endIndex);
+
+  clearGallery();
+  pagedMovies.forEach(movie => {
+    const card = createMovieCard(movie);
+    gallery.appendChild(card);
+  });
+}
