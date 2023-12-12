@@ -28,7 +28,7 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
 
 /* Estilos del modal */
 
-@media (max-width: 320px){
+@media (max-width: 321px){
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -37,11 +37,12 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
     transform: translate(-50%, -50%);
     border: 1px solid #888;
     width: 280px;
-    height:958px ;
+    height:auto ;
     /* width: 90%; */
     
   }
   .movie-image-container{
+    object-fit: cover; /* mejorar calidad de imagen  */
     margin: 48px 20px 0 20px;
   }
   .movie-image{
@@ -54,7 +55,7 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
   }
 
   .movie-info-btn-container{
-    margin: 30px 20px 0px 20px;
+    margin: 30px 20px 30px 20px;
   }
 
   .movie-button{
@@ -108,13 +109,12 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid #888;
-    height:562px ;
-
+    height:auto ;
     width: 618px;
-    
   }
 
   .movie-image-container{
+    object-fit: cover; /* mejorar calidad de imagen  */
     margin: 42px 32px 0px 28px;
   }
   .movie-image{
@@ -124,8 +124,6 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
   .movie-info-container {
     margin: 42px 30px 20px 0; 
   }
-
-  
   .movie-info-container strong {
     width: 106px;
     margin-bottom: 10px;
@@ -166,7 +164,9 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
     margin-right: 12px;
   }
 
-
+  .movie-info-btn-container{
+    margin-bottom: 30px;
+  }
 
 
 }
@@ -181,7 +181,7 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
 
     border: 1px solid #888;
     width: 882px;
-    height:568px ;
+    height:auto ;
     
   }
   .movie-details-container{
@@ -193,6 +193,7 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
     width: 396px;
     height: 477.8px;
     margin: 50px 30px 40px 30px;
+    object-fit: cover; /* mejorar calidad de imagen  */
   }
 
   .movie-info-container{
@@ -221,7 +222,7 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
     line-height: normal;
   }
   .movie-info-container strong{
-    width: 200px;
+    width: 148px;
     margin-bottom: 10px;
     color: #8c8c8c
   }
@@ -260,9 +261,47 @@ background-image: url('https://image.tmdb.org/t/p/w500/movie.poster_path');
     margin-right: 12px;
   }
 
+  .movie-info-btn-container{
+    margin-bottom: 30px;
+  }
 
 
+}
 
+/* .movie-info-vote{
+  background-color:#0501ff;
+  border-radius: 5px;
+  color: #FFF;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  width: 36px;
+  display: flex;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+} */
+
+.movie-info-vote{
+  background-color:#FF6B01;
+  border-radius: 5px;
+  color: #FFF;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  width: 36px;
+  display: flex;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal {

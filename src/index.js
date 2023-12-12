@@ -119,12 +119,47 @@ function showMovieDetailsInModal(movie) {
       overview,
       release_date,
       vote_average,
+      vote_count,
       genres,
       popularity,
       original_title,
       poster_path,
     } = movie;
+    /* 
+    try {
+      const {
+        title,
+        overview,
+        release_date,
+        vote_average,
+        vote_count,
+        genre_ids,
+        popularity,
+        original_title,
+        poster_path,
+      } = movie;
 
+      const detailsHTML = `
+        <div class="movie-details-container">
+          <div class="movie-image-container">
+            <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+          </div>
+          <div class="movie-info-container">
+            <h2>${title} (${getReleaseYear(release_date)})</h2>            
+            <p><strong>Vote / Votes</strong> ${vote_average.toFixed(
+              1
+            )} / ${vote_count}</p>
+            <p><strong>Popularity</strong> ${popularity}</p>
+            <p><strong>Original Title</strong> ${original_title}</p>
+            <p><strong>Genre</strong> ${
+              getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+            }</p>
+            <p><strong>ABOUT:</strong> ${overview}</p>
+          </div>
+        </div>
+      `;
+    
+    */
     const detailsHTML = `
       <div class="movie-details-container">
         <div class="movie-image-container">
@@ -134,7 +169,7 @@ function showMovieDetailsInModal(movie) {
       
           <div class="movie-info-container">
             <h2>${title} (${getReleaseYear(release_date)})</h2>
-            <p><strong>Vote / Votes</strong> ${vote_average}</p>
+            <p><strong>Vote / Votes</strong><span class="movie-info-vote">${vote_average}</span>   / ${vote_count} </p>
             <p><strong>Popularity</strong> ${popularity}</p>
             <p><strong>Original Title</strong> ${original_title}</p>
             <p><strong>Genres:</strong> ${getGenres(genres)}</p>
