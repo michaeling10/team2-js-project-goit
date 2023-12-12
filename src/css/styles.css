@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 * {
@@ -95,56 +94,22 @@ body {
 
 /* Loader */
 
-
-.loader-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .loader {
   width: 48px;
   height: 48px;
-  background: #FF3D00;
-  display: block;
-  margin: 20px auto;
-  position: relative;
-  box-sizing: border-box;
-  animation: rotationBack 1s ease-in-out infinite reverse;
-}
-.loader::before {
-  content: '';  
-  box-sizing: border-box;
-  left: 0;
-  top: 0;
-  transform: rotate(45deg);
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  background: #FF3D00;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-}
-.loader::after {
-  content: '';  
-  box-sizing: border-box;
-  width: 32px;
-  height: 32px;
+  border: 5px solid;
+  border-color: #ff3d00 transparent;
   border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  background: #FFF;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }
-@keyframes rotationBack {
+
+@keyframes rotation {
   0% {
     transform: rotate(0deg);
   }
   100% {
-    transform: rotate(-360deg);
+    transform: rotate(360deg);
   }
 }

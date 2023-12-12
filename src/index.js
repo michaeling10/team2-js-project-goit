@@ -13,8 +13,7 @@ const searchButton = document.getElementById('searchButton');
 const mybutton = document.getElementById('back-to-top-btn');
 const movieDetailsContainer = document.getElementById('movie-details-modal');
 const modal = document.getElementById('myModal');
-const loader = document.querySelector('.loader')
-// const loaderCont = document.querySelector('.loader-container')
+const loader = document.querySelector('.loader');
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -33,7 +32,7 @@ searchButton.addEventListener('click', performSearch);
 homeBtn.addEventListener('click', () => {
   // Muestra el loader antes de cargar el Home
   showLoader();
-  
+
   // Simula una carga (aquí deberías poner la lógica real de carga del Home)
   setTimeout(() => {
     hideLoader();
@@ -43,7 +42,7 @@ homeBtn.addEventListener('click', () => {
 searchButton.addEventListener('click', () => {
   // Muestra el loader antes de realizar la búsqueda
   showLoader();
-  
+
   // Lógica para la búsqueda de películas (aquí deberías poner tu lógica real de búsqueda)
   const searchTerm = searchInput.value.trim();
   if (searchTerm === '') {
@@ -60,7 +59,6 @@ searchButton.addEventListener('click', () => {
 // Initialization
 init();
 
-
 // Función para el loader
 function showLoader() {
   loader.style.display = 'block';
@@ -68,17 +66,12 @@ function showLoader() {
 function hideLoader() {
   loader.style.display = 'none';
 }
-// function hideLoaderCont() {
-//   loaderCont.style.display = 'none';
-// }
 
 document.addEventListener('DOMContentLoaded', () => {
   showLoader();
   setTimeout(() => {
-    // hideLoaderCont();
     hideLoader();
-    
-  }, 1000); 
+  }, 1000);
 });
 
 function showHomePage() {
