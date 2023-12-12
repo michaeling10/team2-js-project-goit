@@ -1,4 +1,5 @@
-'use-strict';
+'use strict'; // Modo estricto activado correctamente
+
 //Imports
 import axios from 'axios';
 import Notiflix from 'notiflix';
@@ -29,40 +30,49 @@ let currentPage = 1;
 const moviesPerPage = 20;
 
 // Event Listeners
+
 homeBtn.addEventListener('click', showHomePage);
+
 libraryBtn.addEventListener('click', showLibraryPage);
-searchButton.addEventListener('click', performSearch);
-watchedButton.addEventListener('click', displayWatchedMovies);
-queueButton.addEventListener('click', displayQueueMovies);
+if (searchButton) {
+  searchButton.addEventListener('click', performSearch);
+}
+if (watchedButton) {
+  watchedButton.addEventListener('click', displayWatchedMovies);
+}
+if (queueButton) {
+  queueButton.addEventListener('click', displayQueueMovies);
+}
 
 // Initialization
 init();
 
 // Functions
-function init() {
-  /* showLibraryPage(); */
-  /* fetchGenres(); */
+async function init() {
+  try {
+    genresList = await getGenresList();
+    if (window.location.pathname.includes('library.html')) {
+      showLibraryPage();
+    } else {
+      showHomePage();
+    }
+  } catch (error) {
+    console.error('Error initializing:', error);
+  }
 }
 
 function showHomePage() {
   gallery.innerHTML = '';
-  searchInput.value = '';
   currentContext = 'home';
   page = 1;
+  console.log('Se cargo Home');
   getMovies('trending/all/day');
-  searchInput.style.display = 'block';
-  searchButton.style.display = 'block';
-  watchedButton.style.display = 'none';
-  queueButton.style.display = 'none';
 }
 
 function showLibraryPage() {
   Notiflix.Notify.info('Personal Library displayed');
-  searchInput.style.display = 'none';
-  searchButton.style.display = 'none';
-  watchedButton.style.display = 'block';
-  queueButton.style.display = 'block';
   currentContext = 'watched';
+  console.log('Se cargo Library');
   displayWatchedMovies();
 }
 
@@ -118,24 +128,6 @@ function createMovieCard(movie) {
   });
 
   return card;
-}
-
-function fetchGenres() {
-  axios
-    .get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
-    .then(response => {
-      genresList = response.data.genres;
-    })
-    .catch(error => console.error('Error fetching genres:', error));
-}
-
-async function init() {
-  try {
-    genresList = await getGenresList();
-    showHomePage();
-  } catch (error) {
-    console.error('Error initializing:', error);
-  }
 }
 
 function showMovieDetailsInModal(movie) {
@@ -370,9 +362,12 @@ function addToQueue(movie) {
 }
 
 function displayWatchedMovies() {
-  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  watchedButton.style.backgroundColor = '#ff6b08';
+  watchedButton.style.boxShadow = '0 0 15px #ff6b08';
+  watchedButton.style.border = 'none';
   clearGallery();
   currentContext = 'watched';
+  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
   const startIndex = (currentPage - 1) * moviesPerPage;
   const endIndex = startIndex + moviesPerPage;
   watchedMovies.slice(startIndex, endIndex).forEach(movie => {
@@ -385,6 +380,9 @@ function displayWatchedMovies() {
 }
 
 function displayQueueMovies() {
+  watchedButton.style.backgroundColor = 'transparent';
+  watchedButton.style.boxShadow = 'none';
+  watchedButton.style.border = '1px solid white';
   currentContext = 'queue';
   clearGallery();
   let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
