@@ -61,7 +61,8 @@ function showPageContent() {
   const onloadElement = document.getElementById('onload');
   if (onloadElement) {
     onloadElement.classList.remove('loader-position');
-
+ }
+}
 // Functions
 async function init() {
   try {
