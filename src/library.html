@@ -50,7 +50,7 @@
         </div>
 
         <div class="header__btn-block">
-          <!-- <button
+          <button
             type="button"
             data-value="watched"
             class="header__btn-library"
@@ -65,14 +65,22 @@
             id="queueButton"
           >
             Queue
-          </button> -->
-          <button id="watchedButton">WATCHED</button>
-          <button id="queueButton">QUEUE</button>
+          </button>
         </div>
       </div>
     </header>
 
-    <main id="main-content"></main>
+    <main id="main-content">
+      <div id="home-page">
+        <div class="gallery"></div>
+        <div id="pagination-container"></div>
+        <button
+          id="back-to-top-btn"
+          style="display: none; position: fixed; bottom: 20px; right: 20px"
+        >
+          ↑ Go back up
+        </button>
+    </main>
 
     <!--FOOTER-->
     <footer>
