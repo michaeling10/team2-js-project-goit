@@ -13,6 +13,8 @@ const searchButton = document.getElementById('searchButton');
 const mybutton = document.getElementById('back-to-top-btn');
 const movieDetailsContainer = document.getElementById('movie-details-modal');
 const modal = document.getElementById('myModal');
+const loader = document.querySelector('.loader')
+// const loaderCont = document.querySelector('.loader-container')
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -28,9 +30,56 @@ let genresList;
 homeBtn.addEventListener('click', showHomePage);
 libraryBtn.addEventListener('click', showLibraryPage);
 searchButton.addEventListener('click', performSearch);
+homeBtn.addEventListener('click', () => {
+  // Muestra el loader antes de cargar el Home
+  showLoader();
+  
+  // Simula una carga (aquí deberías poner la lógica real de carga del Home)
+  setTimeout(() => {
+    hideLoader();
+    showHomePage(); // Muestra la página después de cargar y ocultar el loader
+  }, 1000);
+});
+searchButton.addEventListener('click', () => {
+  // Muestra el loader antes de realizar la búsqueda
+  showLoader();
+  
+  // Lógica para la búsqueda de películas (aquí deberías poner tu lógica real de búsqueda)
+  const searchTerm = searchInput.value.trim();
+  if (searchTerm === '') {
+    hideLoader();
+    Notiflix.Notify.warning('Please enter a search term.');
+    return;
+  }
+
+  clearGallery();
+  page = 1;
+  searchMovies(searchTerm);
+});
 
 // Initialization
 init();
+
+
+// Función para el loader
+function showLoader() {
+  loader.style.display = 'block';
+}
+function hideLoader() {
+  loader.style.display = 'none';
+}
+// function hideLoaderCont() {
+//   loaderCont.style.display = 'none';
+// }
+
+document.addEventListener('DOMContentLoaded', () => {
+  showLoader();
+  setTimeout(() => {
+    // hideLoaderCont();
+    hideLoader();
+    
+  }, 1000); 
+});
 
 function showHomePage() {
   homePage.style.display = 'block';
@@ -250,10 +299,12 @@ function searchMovies(searchTerm) {
         renderMovies(movies);
         createPagination(totalPages);
       }
+      hideLoader();
     })
     .catch(error => {
       console.error('Error fetching movies:', error);
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
+      hideLoader();
     });
 }
 
