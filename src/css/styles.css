@@ -518,6 +518,17 @@ a:not([class]) {
 
 /* Estilos del modal */
 
+.btn-add-watched:hover,
+.btn-add-watched:focus,
+.btn-add-queue:hover,
+.btn-add-queue:focus {
+  border: none;
+  background-color: #ff6b08;
+  box-shadow: 0 0 15px #ff6b08;
+  transition: all 0.3s ease-in-out;
+  color:#fefefe;
+}
+
 @media (max-width: 321px) {
   /* cambio de 320  a   321  */
   .modal-content {
@@ -563,16 +574,14 @@ a:not([class]) {
     border: 1px solid #000;
     width: 112.5px;
     height: 44px;
-    background-color: #ffffff;
     cursor: pointer;
   }
   .btn-add-watched {
-    border: none;
+    border: 1px solid #000;
     border-radius: 5px;
-    background: #ff6b01;
     width: 112.5px;
     height: 44px;
-    color: #fff;
+    color: #000;
     text-align: center;
     font-family: Roboto;
     font-size: 12px;
@@ -583,6 +592,10 @@ a:not([class]) {
     cursor: pointer;
     margin-right: 12px;
   }
+
+  
+
+
   .movie-info-container strong {
     width: 106px;
     margin-bottom: 10px;
@@ -635,16 +648,14 @@ a:not([class]) {
     border: 1px solid #000;
     width: 125px;
     height: 44px;
-    background-color: #ffffff;
     cursor: pointer;
   }
   .btn-add-watched {
-    border: none;
+    border: 1px solid #000;
     border-radius: 5px;
-    background: #ff6b01;
     width: 125px;
     height: 44px;
-    color: #fff;
+    color: #000;
     text-align: center;
     font-family: Roboto;
     font-size: 12px;
@@ -729,16 +740,14 @@ a:not([class]) {
     border: 1px solid #000;
     width: 136px;
     height: 44px;
-    background-color: #ffffff;
     cursor: pointer;
   }
   .btn-add-watched {
-    border: none;
+    border: 1px solid #000;
     border-radius: 5px;
-    background: #ff6b01;
     width: 136px;
     height: 44px;
-    color: #fff;
+    color: #000;
     text-align: center;
     font-family: Roboto;
     font-size: 12px;
