@@ -16,7 +16,6 @@ const loader = document.querySelector('.loader');
 const watchedButton = document.getElementById('watchedButton');
 const queueButton = document.getElementById('queueButton');
 
-
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -47,7 +46,6 @@ if (queueButton) {
 // Initialization
 init();
 
-
 // Función para el loader
 function showLoader() {
   loader.style.display = 'block';
@@ -61,7 +59,7 @@ function showPageContent() {
   const onloadElement = document.getElementById('onload');
   if (onloadElement) {
     onloadElement.classList.remove('loader-position');
- }
+  }
 }
 // Functions
 async function init() {
@@ -74,7 +72,6 @@ async function init() {
     }
   } catch (error) {
     console.error('Error initializing:', error);
-
   }
 }
 
@@ -195,10 +192,10 @@ function showMovieDetailsInModal(movie) {
         </div>
         <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
-            <h2>${title} (${getReleaseYear(release_date)})</h2>            
+            <h2>${title} (${getReleaseYear(release_date)})</h2>
             <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
               1
-            )} / ${vote_count}</p>
+            )} </span> / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
             <p><strong>Original Title</strong> ${original_title}</p>
             <p><strong>Genre</strong> ${
@@ -212,7 +209,6 @@ function showMovieDetailsInModal(movie) {
           </div>
         </div>
       `;
-          // cambio linia 171 tenia --> <p><strong>Vote / Votes</strong> ${vote_average}</p>  -->
       movieDetailsContainer.innerHTML = detailsHTML;
       showModal();
     } catch (error) {

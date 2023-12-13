@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 /* styles.css */
@@ -531,7 +530,8 @@ a:not([class]) {
 
 /* Estilos del modal */
 
-@media (max-width: 321px) { /* cambio de 320  a   321  */
+@media (max-width: 321px) {
+  /* cambio de 320  a   321  */
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -602,7 +602,8 @@ a:not([class]) {
   }
 }
 
-@media (min-width: 322px) and (max-width: 768px) {  /* cambio 320 a 322 */
+@media (min-width: 322px) and (max-width: 768px) {
+  /* cambio 320 a 322 */
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -616,7 +617,7 @@ a:not([class]) {
   }
 
   .movie-image-container {
-    object-fit: cover; 
+    object-fit: cover;
     margin: 42px 32px 0px 28px;
   }
   .movie-image {
@@ -667,10 +668,9 @@ a:not([class]) {
     margin-right: 12px;
   }
 
-  .movie-info-btn-container{
+  .movie-info-btn-container {
     margin-bottom: 30px;
   }
-  
 }
 
 @media (min-width: 769px) {
@@ -761,7 +761,7 @@ a:not([class]) {
     cursor: pointer;
     margin-right: 12px;
   }
-  .movie-info-btn-container{
+  .movie-info-btn-container {
     margin-bottom: 30px;
   }
 }
@@ -824,10 +824,10 @@ a:not([class]) {
   cursor: pointer;
 }
 
-.movie-info-vote{
-  background-color:#FF6B01;
+.movie-info-vote {
+  background-color: #ff6b01;
   border-radius: 5px;
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-family: Roboto;
   font-size: 12px;
