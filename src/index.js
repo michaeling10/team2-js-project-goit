@@ -196,7 +196,7 @@ function showMovieDetailsInModal(movie) {
         <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
             <h2>${title} (${getReleaseYear(release_date)})</h2>            
-            <p><strong>Vote / Votes</strong> ${vote_average.toFixed(
+            <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
               1
             )} / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
@@ -212,7 +212,7 @@ function showMovieDetailsInModal(movie) {
           </div>
         </div>
       `;
-
+          // cambio linia 171 tenia --> <p><strong>Vote / Votes</strong> ${vote_average}</p>  -->
       movieDetailsContainer.innerHTML = detailsHTML;
       showModal();
     } catch (error) {
