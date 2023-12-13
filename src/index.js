@@ -182,7 +182,7 @@ function showMovieDetailsInModal(movie) {
         release_date,
         vote_average,
         vote_count,
-        genres_ids,
+        genre_ids,
         popularity,
         original_title,
         poster_path,
