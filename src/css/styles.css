@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
 
 /* styles.css */
@@ -832,6 +831,27 @@ a:not([class]) {
   list-style: none;
 }
 
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+}
+
+.footer-parrafo {
+  text-align: center;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  color: #545454;
+  padding: 58px 52px;
+}
+
+.footer-link {
+  color: #545454;
+}
 
 /* Loader */
 .hidden {
@@ -865,3 +885,4 @@ a:not([class]) {
   }
 }
 /* Hasta aqui el Loader */
+
