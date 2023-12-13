@@ -6,16 +6,6 @@
   box-sizing: border-box;
 }
 
-.movie-details-container {
-  display: flex;
-}
-
-.movie-image {
-  max-width: auto; /* Ancho deseado del contenedor */
-  height: 477.8px; /* Altura deseada del contenedor */
-  border-radius: 5px;
-}
-
 body {
   color: #000;
   min-height: 100vh;
@@ -491,7 +481,7 @@ a:not([class]) {
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(1, 85%);
+  grid-template-columns: repeat(1, 50%);
   grid-gap: 30px;
   justify-content: center;
   margin-top: 50px;
@@ -526,6 +516,26 @@ a:not([class]) {
 
 .movie-genres + .movie-release::before {
   content: ' | ';
+}
+
+.movie-details-container {
+  display: flex;
+}
+
+.movie-image {
+  max-width: auto; /* Ancho deseado del contenedor */
+  height: 477.8px; /* Altura deseada del contenedor */
+  border-radius: 5px;
+}
+
+.movie-card {
+  cursor: pointer;
+}
+
+.movie-img {
+  width: auto;
+  height: auto;
+  border-radius: 5px;
 }
 
 /* Estilos del modal */
@@ -843,18 +853,6 @@ a:not([class]) {
 }
 
 /* hasta aquí */
-
-.movie-card {
-  min-height: 439px;
-  padding-bottom: 31px;
-  cursor: pointer;
-}
-
-.movie-img {
-  width: 100%;
-  height: 398px;
-  border-radius: 5px;
-}
 
 .paginationjs-pages ul {
   list-style: none;
