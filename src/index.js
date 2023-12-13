@@ -1,6 +1,4 @@
-'use strict'; // Modo estricto activado correctamente
-
-//Imports
+'use strict'; // Modo estricto activado correctamen//Imports
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
@@ -14,8 +12,10 @@ const searchButton = document.getElementById('searchButton');
 const mybutton = document.getElementById('back-to-top-btn');
 const movieDetailsContainer = document.getElementById('movie-details-modal');
 const modal = document.getElementById('myModal');
+const loader = document.querySelector('.loader');
 const watchedButton = document.getElementById('watchedButton');
 const queueButton = document.getElementById('queueButton');
+
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -47,6 +47,22 @@ if (queueButton) {
 // Initialization
 init();
 
+
+// Función para el loader
+function showLoader() {
+  loader.style.display = 'block';
+}
+function hideLoader() {
+  loader.style.display = 'none';
+}
+
+function showPageContent() {
+  document.body.classList.remove('hidden');
+  const onloadElement = document.getElementById('onload');
+  if (onloadElement) {
+    onloadElement.classList.remove('loader-position');
+ }
+}
 // Functions
 async function init() {
   try {
@@ -58,15 +74,26 @@ async function init() {
     }
   } catch (error) {
     console.error('Error initializing:', error);
+
   }
 }
 
 function showHomePage() {
+  document.body.classList.add('hidden');
+  document.getElementById('onload').classList.add('loader-position');
+  homePage.style.display = 'block';
   gallery.innerHTML = '';
   currentContext = 'home';
   page = 1;
-  console.log('Se cargo Home');
-  getMovies('trending/all/day');
+  showLoader();
+
+  setTimeout(function () {
+    getMovies('trending/all/day');
+    setTimeout(function () {
+      hideLoader();
+      showPageContent();
+    }); // Ajusta el tiempo según sea necesario
+  }, 1000);
 }
 
 function showLibraryPage() {
@@ -130,6 +157,8 @@ function createMovieCard(movie) {
   return card;
 }
 
+// Modal con la información de la película
+
 function showMovieDetailsInModal(movie) {
   if (typeof movie === 'number') {
     axios
@@ -152,7 +181,7 @@ function showMovieDetailsInModal(movie) {
         overview,
         release_date,
         vote_average,
-        vote_count, // nueva constante  edioson 
+        vote_count,
         genres,
         popularity,
         original_title,
@@ -164,16 +193,18 @@ function showMovieDetailsInModal(movie) {
         <div class="movie-image-container">
           <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
         </div>
-        <div class ="movie-info-btn-container">
-      
+        <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
-            <h2>${title} (${getReleaseYear(release_date)})</h2>
-            <p><strong>Vote / Votes</strong><span class="movie-info-vote">${vote_average}</span>   / ${vote_count} </p>
+            <h2>${title} (${getReleaseYear(release_date)})</h2>            
+            <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
+              1
+            )} / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
             <p><strong>Original Title</strong> ${original_title}</p>
-            <p><strong>Genres:</strong> ${getGenres(genres)}</p>
-
-            <p><strong>Overview</strong> ${overview}</p>
+            <p><strong>Genre</strong> ${
+              getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+            }</p>
+            <p><strong>ABOUT:</strong> ${overview}</p>
           </div>
           <div class="movie-button">
             <button class="btn-add-watched">ADD TO WATCHED</button>
@@ -200,6 +231,8 @@ function showMovieDetailsInModal(movie) {
       addToQueue(movie);
     });
 }
+
+// Cómo opera el Modal
 function showModal() {
   modal.style.display = 'block';
 
@@ -234,6 +267,7 @@ async function getGenresList() {
   }
 }
 
+// Comparación entre la lista de géneros y los ID de los géneros
 function getGenres(genreIds, genresList) {
   if (!genreIds || !Array.isArray(genreIds) || genreIds.length === 0) {
     return 'N/A';
@@ -252,41 +286,56 @@ function getReleaseYear(releaseDate) {
 }
 
 function performSearch() {
+  document.body.classList.add('hidden');
+  document.getElementById('onload').classList.add('loader-position');
   currentContext = 'search';
   const searchTerm = searchInput.value.trim();
   if (searchTerm === '') {
     Notiflix.Notify.warning('Please enter a search term.');
     return;
   }
+  showLoader();
   clearGallery();
   page = 1;
-  searchMovies(searchTerm);
-}
-
-function searchMovies(searchTerm) {
-  clearGallery();
-  page = 1;
-  axios
-    .get(
-      `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
-    )
-    .then(response => {
-      const totalPages = response.data.total_pages;
-      const totalItems = response.data.total_results;
-      const movies = response.data.results;
-
-      if (movies.length === 0) {
-        Notiflix.Notify.info('No movies found for the search term.');
-      } else {
-        Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
-        renderMovies(movies);
-        createPagination(totalPages);
-      }
+  searchMovies(searchTerm)
+    .then(() => {
+      setTimeout(function () {
+        hideLoader();
+        showPageContent();
+      }, 1000);
     })
     .catch(error => {
       console.error('Error fetching movies:', error);
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
+      hideLoader();
     });
+}
+
+function searchMovies(searchTerm) {
+  clearGallery();
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
+      )
+      .then(response => {
+        const totalPages = response.data.total_pages;
+        const totalItems = response.data.total_results;
+        const movies = response.data.results;
+
+        if (movies.length === 0) {
+          Notiflix.Notify.info('No movies found for the search term.');
+        } else {
+          Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
+          renderMovies(movies);
+          createPagination(totalPages);
+        }
+        resolve();
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 }
 
 function clearGallery() {
