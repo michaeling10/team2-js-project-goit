@@ -152,6 +152,7 @@ function showMovieDetailsInModal(movie) {
         overview,
         release_date,
         vote_average,
+        vote_count, // nueva constante  edioson 
         genres,
         popularity,
         original_title,
@@ -167,7 +168,7 @@ function showMovieDetailsInModal(movie) {
       
           <div class="movie-info-container">
             <h2>${title} (${getReleaseYear(release_date)})</h2>
-            <p><strong>Vote / Votes</strong> ${vote_average}</p>
+            <p><strong>Vote / Votes</strong><span class="movie-info-vote">${vote_average}</span>   / ${vote_count} </p>
             <p><strong>Popularity</strong> ${popularity}</p>
             <p><strong>Original Title</strong> ${original_title}</p>
             <p><strong>Genres:</strong> ${getGenres(genres)}</p>
@@ -180,7 +181,7 @@ function showMovieDetailsInModal(movie) {
           </div>
         </div>
       `;
-
+          // cambio linia 171 tenia --> <p><strong>Vote / Votes</strong> ${vote_average}</p>  -->
       movieDetailsContainer.innerHTML = detailsHTML;
       showModal();
     } catch (error) {

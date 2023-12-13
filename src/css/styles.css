@@ -49,7 +49,7 @@ li {
 }
 
 img {
-  max-width: 100%;
+  max-width: auto;  /* cambio de 100%  a  auto  */
   height: auto;
   display: block;
 }
@@ -530,7 +530,7 @@ a:not([class]) {
 
 /* Estilos del modal */
 
-@media (max-width: 320px) {
+@media (max-width: 321px) { /* cambio de 320  a   321  */
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -601,7 +601,7 @@ a:not([class]) {
   }
 }
 
-@media (min-width: 320px) and (max-width: 768px) {
+@media (min-width: 322px) and (max-width: 768px) {  /* cambio 320 a 322 */
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -615,6 +615,7 @@ a:not([class]) {
   }
 
   .movie-image-container {
+    object-fit: cover; 
     margin: 42px 32px 0px 28px;
   }
   .movie-image {
@@ -664,6 +665,11 @@ a:not([class]) {
     cursor: pointer;
     margin-right: 12px;
   }
+
+  .movie-info-btn-container{
+    margin-bottom: 30px;
+  }
+  
 }
 
 @media (min-width: 769px) {
@@ -687,6 +693,7 @@ a:not([class]) {
     width: 396px;
     height: 477.8px;
     margin: 50px 30px 40px 30px;
+    object-fit: cover;
   }
 
   .movie-info-container {
@@ -753,6 +760,9 @@ a:not([class]) {
     cursor: pointer;
     margin-right: 12px;
   }
+  .movie-info-btn-container{
+    margin-bottom: 30px;
+  }
 }
 
 .modal {
@@ -811,6 +821,24 @@ a:not([class]) {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.movie-info-vote{
+  background-color:#FF6B01;
+  border-radius: 5px;
+  color: #FFF;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  width: 36px;
+  display: flex;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* hasta aquí */
