@@ -1,14 +1,114 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page title</title>
-    <link rel="stylesheet" href="./sass/index.scss" />
-    <script type="module" src="./index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="icon" href="./images/film-icon.svg" type="image/svg+xml" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <title>Filmoteka</title>
   </head>
   <body>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/example.html"></include>
+    <!--SECTION HEADER-->
+    <header class="header">
+      <div class="header__container">
+        <div class="header__wraper">
+          <div class="header__logo">
+            <a href="./index.html" class="header__logo-film">
+              <svg class="header__logo-svg" width="24" height="24">
+                <use class="" href="./images/film-defs.svg#icon-film"></use>
+              </svg>
+              <span class="header__logo-name">Filmoteka</span>
+            </a>
+          </div>
+
+          <nav class="header__navigation">
+            <ul class="header__navigation-list">
+              <li class="header__navigation-item">
+                <a
+                  class="header__navigation-btn header__navigation-btn--current"
+                  id="home-btn"
+                  href="./index.html"
+                  >HOME</a
+                >
+              </li>
+              <li class="header__navigation-item">
+                <a
+                  class="header__navigation-btn"
+                  id="library-btn"
+                  href="./library.html"
+                  >MY LIBRARY</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="header__search-form">
+          <div class="header__search-container">
+            <input
+              type="text"
+              name="search"
+              id="searchInput"
+              class="header__form-input"
+              placeholder="Movie Search"
+            />
+            <button type="submit" class="header__search-btn" id="searchButton">
+              <span class="header__search-icon"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <div class="loader-position" id="onload">
+        <span class="loader"></span>
+      </div>
+      <div id="home-page">
+        <div class="gallery"></div>
+        <div id="pagination-container"></div>
+        <button
+          id="back-to-top-btn"
+          style="display: none; position: fixed; bottom: 20px; right: 20px"
+        >
+          ↑ Go back up
+        </button>
+      </div>
+
+      <!-- Modal -->
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <div id="movie-details-modal"></div>
+        </div>
+      </div>
+      <!-- End Modal -->
+    </main>
+
+    <!--FOOTER-->
+    <footer>
+      <div class="footer__container">
+        <p class="footer__text footer-parrafo">
+          &#169; 2023 | All Rights Reserved |
+        </p>
+        <div class="footer__sub">
+          Developed with
+          <img
+            class="footer__icon N"
+            src="images/footer/footer_icon.png"
+            alt="footer_icon"
+            width="14"
+            height="14"
+          />
+          <p class="footer__link open-modal-team">by GoIT Students</p>
+        </div>
+      </div>
+    </footer>
+    <script src="./index.js" type="module"></script>
   </body>
 </html>
