@@ -546,9 +546,10 @@ a:not([class]) {
     margin: 48px 20px 0 20px;
   }
   .movie-image {
-    width: auto;
+    width: 240px;
     height: 356px;
   }
+
   .movie-details-container {
     display: flex;
     flex-direction: column;
@@ -556,6 +557,7 @@ a:not([class]) {
 
   .movie-info-btn-container {
     margin: 30px 20px 0px 20px;
+    width: 240px;
   }
 
   .movie-button {
@@ -622,7 +624,7 @@ a:not([class]) {
     margin: 42px 32px 0px 28px;
   }
   .movie-image {
-    width: 264px;
+    width: 240px;
     height: 373.5px;
   }
   .movie-info-container {
@@ -669,6 +671,7 @@ a:not([class]) {
 
   .movie-info-btn-container {
     margin-bottom: 30px;
+    width: 240px;
   }
 }
 
@@ -690,7 +693,7 @@ a:not([class]) {
     display: flex;
   }
   .movie-image-container {
-    width: 396px;
+    /*width: 396px;*/
     height: 477.8px;
     margin: 50px 30px 40px 30px;
     object-fit: cover;
@@ -700,9 +703,7 @@ a:not([class]) {
     margin: 50px 30px 20px 0;
   }
 
-  .movie-image {
-    width: 396px;
-  }
+
   .movie-info-container h2 {
     margin: 0;
     color: #000;
@@ -760,6 +761,7 @@ a:not([class]) {
   }
   .movie-info-btn-container {
     margin-bottom: 30px;
+    width: 396px;
   }
 }
 
