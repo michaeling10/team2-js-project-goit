@@ -411,6 +411,9 @@ function displayWatchedMovies() {
   watchedButton.style.backgroundColor = '#ff6b08';
   watchedButton.style.boxShadow = '0 0 15px #ff6b08';
   watchedButton.style.border = 'none';
+  queueButton.style.backgroundColor = 'transparent';
+  queueButton.style.boxShadow = 'none';
+  queueButton.style.border = '1px solid white';
   clearGallery();
   currentContext = 'watched';
   let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
@@ -429,6 +432,9 @@ function displayQueueMovies() {
   watchedButton.style.backgroundColor = 'transparent';
   watchedButton.style.boxShadow = 'none';
   watchedButton.style.border = '1px solid white';
+  queueButton.style.backgroundColor = '#ff6b08';
+  queueButton.style.boxShadow = '0 0 15px #ff6b08';
+  queueButton.style.border = 'none';
   currentContext = 'queue';
   clearGallery();
   let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
