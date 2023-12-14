@@ -133,16 +133,15 @@ function createMovieCard(movie) {
   const img = document.createElement('img');
   img.classList.add('movie-img');
   img.src = `${IMAGE_BASE_URL}${movie.poster_path}`;
-  img.alt = movie.title;
+  img.alt = movie.title || movie.name || 'N/A';
 
   const movieInfo = document.createElement('div');
   movieInfo.classList.add('movie-info');
   movieInfo.innerHTML = `
-    <p class="movie-title">${movie.title}</p>
+    <p class="movie-title">${movie.title || movie.name || 'N/A'}</p>
     <p class="movie-genres">${getGenres(movie.genre_ids, genresList)}</p>
     <p class="movie-release">${getReleaseYear(movie.release_date)}</p>
   `;
-
   card.appendChild(img);
   card.appendChild(movieInfo);
 
@@ -175,29 +174,32 @@ function showMovieDetailsInModal(movie) {
     try {
       const {
         title,
+        name,
         overview,
-        release_date,
         vote_average,
         vote_count,
         genre_ids,
         popularity,
         original_title,
+        original_name,
         poster_path,
       } = movie;
+      const altText = title ? `${title} (Movie)` : `${name} (TV Series)`;
+      const originalTitle = original_title || original_name || 'N/A';
 
       const detailsHTML = `
       <div class="movie-details-container">
         <div class="movie-image-container">
-          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${altText}" class="movie-image">
         </div>
         <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
-            <h2>${title} (${getReleaseYear(release_date)})</h2>
+            <h2>${altText}</h2>
             <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
               1
             )} </span> / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
-            <p><strong>Original Title</strong> ${original_title}</p>
+            <p><strong>Original Title</strong> ${originalTitle}</p>
             <p><strong>Genre</strong> ${
               getGenres ? getGenres(genre_ids, genresList) : 'N/A'
             }</p>
@@ -271,7 +273,7 @@ function getGenres(genreIds, genresList) {
 
   const genreNames = genreIds.map(id => {
     const genre = genresList.find(genre => genre.id === id);
-    return genre ? genre.name : 'Unknown Genre';
+    return genre ? genre.name : '';
   });
 
   return genreNames.join(', ');
