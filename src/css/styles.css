@@ -518,253 +518,6 @@ a:not([class]) {
 
 /* Estilos del modal */
 
-.btn-add-watched:hover,
-.btn-add-watched:focus,
-.btn-add-queue:hover,
-.btn-add-queue:focus {
-  border: none;
-  background-color: #ff6b08;
-  box-shadow: 0 0 15px #ff6b08;
-  transition: all 0.3s ease-in-out;
-  color:#fefefe;
-}
-
-@media (max-width: 321px) {
-  /* cambio de 320  a   321  */
-  .modal-content {
-    background-color: #fefefe;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid #888;
-    width: 280px;
-    height: 958px;
-    /* width: 90%; */
-  }
-  .movie-image-container {
-    margin: 48px 20px 0 20px;
-  }
-  .movie-image {
-    width: 240px;
-    height: 356px;
-  }
-
-  .movie-details-container {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .movie-info-btn-container {
-    margin: 30px 20px 0px 20px;
-    width: 240px;
-  }
-
-  .movie-button {
-    display: flex;
-  }
-  .btn-add-queue {
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 1px solid #000;
-    width: 112.5px;
-    height: 44px;
-    cursor: pointer;
-  }
-  .btn-add-watched {
-    border: 1px solid #000;
-    border-radius: 5px;
-    width: 112.5px;
-    height: 44px;
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-right: 12px;
-  }
-
-  
-
-
-  .movie-info-container strong {
-    width: 106px;
-    margin-bottom: 10px;
-    color: #8c8c8c;
-  }
-}
-
-@media (min-width: 322px) and (max-width: 768px) {
-  /* cambio 320 a 322 */
-  .modal-content {
-    background-color: #fefefe;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid #888;
-    height: 562px;
-
-    width: 618px;
-  }
-
-  .movie-image-container {
-    object-fit: cover;
-    margin: 42px 32px 0px 28px;
-  }
-  .movie-image {
-    width: 240px;
-    height: 373.5px;
-  }
-  .movie-info-container {
-    margin: 42px 30px 20px 0;
-  }
-
-  .movie-info-container strong {
-    width: 106px;
-    margin-bottom: 10px;
-    color: #8c8c8c;
-  }
-
-  .btn-add-queue {
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 1px solid #000;
-    width: 125px;
-    height: 44px;
-    cursor: pointer;
-  }
-  .btn-add-watched {
-    border: 1px solid #000;
-    border-radius: 5px;
-    width: 125px;
-    height: 44px;
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-right: 12px;
-  }
-
-  .movie-info-btn-container {
-    margin-bottom: 30px;
-    width: 240px;
-  }
-}
-
-@media (min-width: 769px) {
-  .modal-content {
-    background-color: #fefefe;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    border: 1px solid #888;
-    width: 882px;
-    height: 568px;
-  }
-  .movie-details-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-  }
-  .movie-image-container {
-    /*width: 396px;*/
-    height: 477.8px;
-    margin: 50px 30px 40px 30px;
-    object-fit: cover;
-  }
-
-  .movie-info-container {
-    margin: 50px 30px 20px 0;
-  }
-
-
-  .movie-info-container h2 {
-    margin: 0;
-    color: #000;
-    font-family: Roboto;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-
-  .movie-info-container h2 {
-    color: #000;
-    font-family: Roboto;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-  }
-  .movie-info-container strong {
-    width: 200px;
-    margin-bottom: 10px;
-    color: #8c8c8c;
-  }
-
-  .btn-add-queue {
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 1px solid #000;
-    width: 136px;
-    height: 44px;
-    cursor: pointer;
-  }
-  .btn-add-watched {
-    border: 1px solid #000;
-    border-radius: 5px;
-    width: 136px;
-    height: 44px;
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-right: 12px;
-  }
-  .movie-info-btn-container {
-    margin-bottom: 30px;
-    width: 396px;
-  }
-}
-
 .modal {
   display: none;
   position: fixed;
@@ -778,6 +531,207 @@ a:not([class]) {
   background-color: rgba(0, 0, 0, 0.7);
   padding-top: 60px;
 }
+
+  .modal-content {
+    background-color: #fefefe;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #888;
+    width: 280px;
+    height: auto;
+    
+  }
+
+  @media screen and (min-width: 768px) {
+    .modal-content {
+      width: 618px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .modal-content {
+      width: 882px;
+    }
+  }
+  
+  .movie-details-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .movie-details-container {
+      flex-direction:inherit;
+      padding-bottom: 0;
+    }
+  }
+
+  .movie-image-container {
+    width: 240px;
+    height: 356.5;
+    margin: 48px 20px 0 20px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .movie-image-container {
+      width: 264px;
+      height: 373.5;
+      object-fit: cover;
+    margin: 42px 32px 0px 28px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .movie-image-container {
+      width: 396px;
+      height: 477.8px;
+      margin: 50px 30px 40px 30px;
+      object-fit: cover;
+    }
+  }
+
+  .movie-image {
+    width: 100%;
+    height: 100%;
+    
+  }
+
+  .movie-info-btn-container {
+    margin: 30px 20px 0px 20px;
+    width: 240px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .movie-info-btn-container {
+      margin-bottom: 30px;
+      width: 264px;
+      height: auto;
+      flex-direction: inherit;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .movie-info-btn-container {
+      width: 396px;
+    }
+  }.movie-button {
+  display: flex;
+}
+
+.movie-button {
+  display: flex;
+  flex-direction: inherit;
+  padding-top: 10px;
+}
+
+  @media screen and (min-width: 768px) {
+    .movie-info-container {
+      margin: 18px 30px 5px 0;
+    }
+  }
+  
+  .movie-info-container h2 {
+    margin: 0;
+    color: #000;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding-bottom: 15px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .movie-info-container h2 {
+      font-size: 30px;
+    }
+  }
+
+  .movie-info-container strong {
+    width: 106px;
+    margin-bottom: 10px;
+    color: #8c8c8c;
+  }
+  
+
+  @media screen and (min-width: 1024px) {
+    .movie-info-container strong {
+      width: 200px;
+      margin-bottom: 10px;
+      color: #8c8c8c;
+    }
+  }
+
+  .btn-add-queue {
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border: 1px solid #000;
+    width: 112.5px;
+    height: 44px;
+    cursor: pointer;
+    background-color: #fefefe;
+  }
+
+  .btn-add-watched {
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 112.5px;
+    height: 44px;
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-right: 12px;
+    background-color: #fefefe;
+  }
+  
+  .btn-add-watched:hover,
+  .btn-add-watched:focus,
+  .btn-add-queue:hover,
+  .btn-add-queue:focus {
+    border: none;
+    background-color: #ff6b08;
+    box-shadow: 0 0 15px #ff6b08;
+    transition: all 0.3s ease-in-out;
+    color:#fefefe;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .btn-add-queue {
+      width: 125px;
+    }
+
+    .btn-add-watched {
+      width: 125px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .btn-add-queue {
+      width: 136px;
+    }
+  
+    .btn-add-watched {
+      width: 136px;
+    }
+  }
 
 .movie-info-container p {
   color: #000;
@@ -802,7 +756,7 @@ a:not([class]) {
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 20px; /* 133.333% */
+  line-height: 20px; 
   text-transform: uppercase;
 }
 
@@ -842,44 +796,6 @@ a:not([class]) {
   margin-right: 5px;
 }
 
-/* hasta aquí */
-
-.paginationjs-pages ul {
-  list-style: none;
-}
-
-
-/* Loader */
-.hidden {
-  overflow: hidden;
-}
-.loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid;
-  border-color: #ff3d00 transparent;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-.loader-position {
-  background: #ffff;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 /* Hasta aqui el Loader */
 
 /* MODAL TEAM */
