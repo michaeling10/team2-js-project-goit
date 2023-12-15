@@ -140,7 +140,9 @@ function createMovieCard(movie) {
   movieInfo.innerHTML = `
     <p class="movie-title">${movie.title || movie.name || 'N/A'}</p>
     <p class="movie-genres">${getGenres(movie.genre_ids, genresList)}</p>
-    <p class="movie-release">${getReleaseYear(movie.release_date)}</p>
+    <p class="movie-release">${getReleaseYear(
+      movie.release_date || movie.first_air_date
+    )}</p>
   `;
   card.appendChild(img);
   card.appendChild(movieInfo);
@@ -149,7 +151,7 @@ function createMovieCard(movie) {
     event.preventDefault();
     showMovieDetailsInModal(movie);
   });
-
+  console.log('Movie Object:', movie);
   return card;
 }
 
@@ -255,10 +257,18 @@ function showModal() {
 // Función para obtener la lista de géneros
 async function getGenresList() {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
-    );
-    return response.data.genres;
+    const [movieGenresResponse, tvGenresResponse] = await Promise.all([
+      axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`),
+      axios.get(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}`),
+    ]);
+
+    const movieGenres = movieGenresResponse.data.genres;
+    const tvGenres = tvGenresResponse.data.genres;
+
+    // Unir las dos listas de géneros
+    const allGenres = [...movieGenres, ...tvGenres];
+
+    return allGenres;
   } catch (error) {
     console.error('Error fetching genres list:', error);
     throw error;
@@ -280,7 +290,11 @@ function getGenres(genreIds, genresList) {
 }
 
 function getReleaseYear(releaseDate) {
-  return releaseDate ? releaseDate.slice(0, 4) : 'N/A';
+  if (releaseDate) {
+    return releaseDate.slice(0, 4);
+  } else {
+    return 'N/A';
+  }
 }
 
 function performSearch() {
