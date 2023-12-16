@@ -16,6 +16,11 @@ const loader = document.querySelector('.loader');
 const watchedButton = document.getElementById('watchedButton');
 const queueButton = document.getElementById('queueButton');
 
+const openModal = document.querySelector('.open-modal-team');
+const closeModal = document.querySelector('.close-modal-team');
+const teamBackdrop = document.querySelector('.modal__team-backdrop');
+const teamModal = document.getElementsByClassName('modal__team');
+
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -143,16 +148,17 @@ function createMovieCard(movie) {
   const img = document.createElement('img');
   img.classList.add('movie-img');
   img.src = `${IMAGE_BASE_URL}${movie.poster_path}`;
-  img.alt = movie.title;
+  img.alt = movie.title || movie.name || 'N/A';
 
   const movieInfo = document.createElement('div');
   movieInfo.classList.add('movie-info');
   movieInfo.innerHTML = `
-    <p class="movie-title">${movie.title}</p>
+    <p class="movie-title">${movie.title || movie.name || 'N/A'}</p>
     <p class="movie-genres">${getGenres(movie.genre_ids, genresList)}</p>
-    <p class="movie-release">${getReleaseYear(movie.release_date)}</p>
+    <p class="movie-release">${getReleaseYear(
+      movie.release_date || movie.first_air_date
+    )}</p>
   `;
-
   card.appendChild(img);
   card.appendChild(movieInfo);
 
@@ -160,7 +166,7 @@ function createMovieCard(movie) {
     event.preventDefault();
     showMovieDetailsInModal(movie);
   });
-
+  console.log('Movie Object:', movie);
   return card;
 }
 
@@ -185,29 +191,32 @@ function showMovieDetailsInModal(movie) {
     try {
       const {
         title,
+        name,
         overview,
-        release_date,
         vote_average,
         vote_count,
         genre_ids,
         popularity,
         original_title,
+        original_name,
         poster_path,
       } = movie;
+      const altText = title ? `${title} (Movie)` : `${name} (TV Series)`;
+      const originalTitle = original_title || original_name || 'N/A';
 
       const detailsHTML = `
       <div class="movie-details-container">
         <div class="movie-image-container">
-          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${altText}" class="movie-image">
         </div>
         <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
-            <h2>${title} (${getReleaseYear(release_date)})</h2>
+            <h2>${altText}</h2>
             <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
               1
             )} </span> / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
-            <p><strong>Original Title</strong> ${original_title}</p>
+            <p><strong>Original Title</strong> ${originalTitle}</p>
             <p><strong>Genre</strong> ${
               getGenres ? getGenres(genre_ids, genresList) : 'N/A'
             }</p>
@@ -263,10 +272,18 @@ function showModal() {
 // Función para obtener la lista de géneros
 async function getGenresList() {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
-    );
-    return response.data.genres;
+    const [movieGenresResponse, tvGenresResponse] = await Promise.all([
+      axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`),
+      axios.get(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}`),
+    ]);
+
+    const movieGenres = movieGenresResponse.data.genres;
+    const tvGenres = tvGenresResponse.data.genres;
+
+    // Unir las dos listas de géneros
+    const allGenres = [...movieGenres, ...tvGenres];
+
+    return allGenres;
   } catch (error) {
     console.error('Error fetching genres list:', error);
     throw error;
@@ -281,14 +298,18 @@ function getGenres(genreIds, genresList) {
 
   const genreNames = genreIds.map(id => {
     const genre = genresList.find(genre => genre.id === id);
-    return genre ? genre.name : 'Unknown Genre';
+    return genre ? genre.name : '';
   });
 
   return genreNames.join(', ');
 }
 
 function getReleaseYear(releaseDate) {
-  return releaseDate ? releaseDate.slice(0, 4) : 'N/A';
+  if (releaseDate) {
+    return releaseDate.slice(0, 4);
+  } else {
+    return 'N/A';
+  }
 }
 
 function performSearch() {
@@ -421,6 +442,9 @@ function displayWatchedMovies() {
   watchedButton.style.backgroundColor = '#ff6b08';
   watchedButton.style.boxShadow = '0 0 15px #ff6b08';
   watchedButton.style.border = 'none';
+  queueButton.style.backgroundColor = 'transparent';
+  queueButton.style.boxShadow = 'none';
+  queueButton.style.border = '1px solid white';
   clearGallery();
   currentContext = 'watched';
   let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
@@ -439,6 +463,9 @@ function displayQueueMovies() {
   watchedButton.style.backgroundColor = 'transparent';
   watchedButton.style.boxShadow = 'none';
   watchedButton.style.border = '1px solid white';
+  queueButton.style.backgroundColor = '#ff6b08';
+  queueButton.style.boxShadow = '0 0 15px #ff6b08';
+  queueButton.style.border = 'none';
   currentContext = 'queue';
   clearGallery();
   let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
@@ -473,4 +500,46 @@ function paginateLocalStorage(context, pageNumber) {
 }
 
 
-// buscador por enter 
+
+// MODAL TEAM 
+
+openModal.addEventListener('click', openModalTeam);
+closeModal.addEventListener('click', closeModalTeam);
+
+function openModalTeam(event) {
+  teamBackdrop.classList.remove('team__backdrop--hidden');
+  document.addEventListener('keydown', onEscapeClose);
+  document.addEventListener('click', onBackdropClose);
+  teamModal[0].classList.add('openModalAnimationTeam');
+}
+
+function closeModalTeam(event) {
+  teamModal[0].classList.remove('closeModalAnimationTeam');
+  teamBackdrop.classList.add('team__backdrop--hidden');
+  document.removeEventListener('keydown', onEscapeClose);
+  document.body.style.overflow = '';
+}
+
+function onEscapeClose(event) {
+  if (event.code === 'Escape') {
+    teamModal[0].classList.remove('openModalAnimationTeam');
+    teamModal[0].classList.add('closeModalAnimationTeam');
+    setTimeout(() => {
+      closeModalTeam();
+    }, 200);
+    closeModalTeam();
+  }
+}
+
+function onBackdropClose(event) {
+  if (event.target === teamBackdrop) {
+    teamModal[0].classList.remove('openModalAnimationTeam');
+    teamModal[0].classList.add('closeModalAnimationTeam');
+    setTimeout(() => {
+      closeModalTeam();
+    }, 200);
+  }
+}
+
+// END MODAL TEAM 
+
