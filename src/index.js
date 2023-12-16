@@ -1,4 +1,4 @@
-'use strict'; // Modo estricto activado correctamen//Imports
+'use strict'; // Modo estrictElementso activado correctamen//Imports
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
@@ -38,6 +38,16 @@ const moviesPerPage = 20;
 homeBtn.addEventListener('click', showHomePage);
 
 libraryBtn.addEventListener('click', showLibraryPage);
+
+// buscar si pulsa enter --- > edison
+if (searchInput) {
+  searchInput.addEventListener("keyup", function(event){
+    if(event.key === "Enter"){
+      performSearch();
+    }
+  })  
+  
+}
 if (searchButton) {
   searchButton.addEventListener('click', performSearch);
 }
@@ -490,6 +500,7 @@ function paginateLocalStorage(context, pageNumber) {
 }
 
 
+
 // MODAL TEAM 
 
 openModal.addEventListener('click', openModalTeam);
@@ -530,5 +541,5 @@ function onBackdropClose(event) {
   }
 }
 
-
 // END MODAL TEAM 
+
