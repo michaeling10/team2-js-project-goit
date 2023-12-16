@@ -528,9 +528,9 @@ a:not([class]) {
   transition: all 0.3s ease-in-out;
   color:#fefefe;
 }
+/* Estilos del modal */
 
-@media (max-width: 321px) {
-  /* cambio de 320  a   321  */
+@media (max-width: 321px){
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -539,31 +539,31 @@ a:not([class]) {
     transform: translate(-50%, -50%);
     border: 1px solid #888;
     width: 280px;
-    height: 958px;
+    height:auto ;
     /* width: 90%; */
+    
   }
-  .movie-image-container {
+  .movie-image-container{
+    object-fit: cover; /* mejorar calidad de imagen  */
     margin: 48px 20px 0 20px;
   }
-  .movie-image {
+  .movie-image{
     width: 240px;
     height: 356px;
   }
-
   .movie-details-container {
     display: flex;
     flex-direction: column;
   }
 
-  .movie-info-btn-container {
-    margin: 30px 20px 0px 20px;
-    width: 240px;
+  .movie-info-btn-container{
+    margin: 30px 20px 30px 20px;
   }
 
-  .movie-button {
+  .movie-button{
     display: flex;
   }
-  .btn-add-queue {
+  .btn-add-queue{
     color: #000;
     text-align: center;
     font-family: Roboto;
@@ -576,14 +576,16 @@ a:not([class]) {
     border: 1px solid #000;
     width: 112.5px;
     height: 44px;
+    background-color: #FFFFFF;
     cursor: pointer;
   }
-  .btn-add-watched {
-    border: 1px solid #000;
+  .btn-add-watched{
+    border: none;
     border-radius: 5px;
+    background: #FF6B01;
     width: 112.5px;
     height: 44px;
-    color: #000;
+    color: #FFF;
     text-align: center;
     font-family: Roboto;
     font-size: 12px;
@@ -594,19 +596,14 @@ a:not([class]) {
     cursor: pointer;
     margin-right: 12px;
   }
-
-  
-
-
   .movie-info-container strong {
     width: 106px;
     margin-bottom: 10px;
-    color: #8c8c8c;
+    color: #8c8c8c
   }
-}
+} 
 
-@media (min-width: 322px) and (max-width: 768px) {
-  /* cambio 320 a 322 */
+@media (min-width:320px) and (max-width: 768px){
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -614,30 +611,28 @@ a:not([class]) {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid #888;
-    height: 562px;
-
+    height:auto ;
     width: 618px;
   }
 
-  .movie-image-container {
-    object-fit: cover;
+  .movie-image-container{
+    object-fit: cover; /* mejorar calidad de imagen  */
     margin: 42px 32px 0px 28px;
   }
-  .movie-image {
-    width: 240px;
+  .movie-image{
+    width: 264px;
     height: 373.5px;
   }
   .movie-info-container {
-    margin: 42px 30px 20px 0;
+    margin: 42px 30px 20px 0; 
   }
-
   .movie-info-container strong {
     width: 106px;
     margin-bottom: 10px;
-    color: #8c8c8c;
+    color: #8c8c8c
   }
 
-  .btn-add-queue {
+  .btn-add-queue{
     color: #000;
     text-align: center;
     font-family: Roboto;
@@ -650,14 +645,16 @@ a:not([class]) {
     border: 1px solid #000;
     width: 125px;
     height: 44px;
+    background-color: #FFFFFF;
     cursor: pointer;
   }
-  .btn-add-watched {
-    border: 1px solid #000;
+  .btn-add-watched{
+    border: none;
     border-radius: 5px;
+    background: #FF6B01;
     width: 125px;
     height: 44px;
-    color: #000;
+    color: #FFF;
     text-align: center;
     font-family: Roboto;
     font-size: 12px;
@@ -669,13 +666,14 @@ a:not([class]) {
     margin-right: 12px;
   }
 
-  .movie-info-btn-container {
+  .movie-info-btn-container{
     margin-bottom: 30px;
-    width: 240px;
   }
+
+
 }
 
-@media (min-width: 769px) {
+@media (min-width: 769px){
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -685,26 +683,29 @@ a:not([class]) {
 
     border: 1px solid #888;
     width: 882px;
-    height: 568px;
+    height:auto ;
+    
   }
-  .movie-details-container {
+  .movie-details-container{
     width: 100%;
     height: 100%;
     display: flex;
   }
-  .movie-image-container {
-    /*width: 396px;*/
+  .movie-image-container{
+    width: 396px;
     height: 477.8px;
     margin: 50px 30px 40px 30px;
-    object-fit: cover;
+    object-fit: cover; /* mejorar calidad de imagen  */
   }
 
-  .movie-info-container {
+  .movie-info-container{
     margin: 50px 30px 20px 0;
   }
 
-
-  .movie-info-container h2 {
+  .movie-image{
+    width: 396px;
+  }
+  .movie-info-container h2{
     margin: 0;
     color: #000;
     font-family: Roboto;
@@ -714,7 +715,7 @@ a:not([class]) {
     line-height: normal;
   }
 
-  .movie-info-container h2 {
+  .movie-info-container h2{
     color: #000;
     font-family: Roboto;
     font-size: 30px;
@@ -722,13 +723,13 @@ a:not([class]) {
     font-weight: 500;
     line-height: normal;
   }
-  .movie-info-container strong {
-    width: 200px;
+  .movie-info-container strong{
+    width: 148px;
     margin-bottom: 10px;
-    color: #8c8c8c;
+    color: #8c8c8c
   }
 
-  .btn-add-queue {
+  .btn-add-queue{
     color: #000;
     text-align: center;
     font-family: Roboto;
@@ -741,14 +742,16 @@ a:not([class]) {
     border: 1px solid #000;
     width: 136px;
     height: 44px;
+    background-color: #FFFFFF;
     cursor: pointer;
   }
-  .btn-add-watched {
-    border: 1px solid #000;
+  .btn-add-watched{
+    border: none;
     border-radius: 5px;
+    background: #FF6B01;
     width: 136px;
     height: 44px;
-    color: #000;
+    color: #FFF;
     text-align: center;
     font-family: Roboto;
     font-size: 12px;
@@ -759,10 +762,30 @@ a:not([class]) {
     cursor: pointer;
     margin-right: 12px;
   }
-  .movie-info-btn-container {
+
+  .movie-info-btn-container{
     margin-bottom: 30px;
-    width: 396px;
   }
+
+
+}
+
+.movie-info-vote{
+  background-color:#FF6B01;
+  border-radius: 5px;
+  color: #FFF;
+  text-align: center;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: uppercase;
+  width: 36px;
+  display: flex;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal {
@@ -780,23 +803,27 @@ a:not([class]) {
 }
 
 .movie-info-container p {
+ 
+  
   color: #000;
   font-family: Roboto;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 16px;
+  line-height: 16px; 
   display: flex;
   flex-direction: row;
+ 
 }
 
-.movie-info-container p:first-child {
-  color: #ff6b01;
+.movie-info-container p:first-child{
+  color:  #FF6B01;
   width: 36px;
   height: 16px;
+  
 }
 
-.movie-info-container p:last-child {
+.movie-info-container p:last-child{
   flex-direction: column;
   font-family: Roboto;
   font-size: 12px;
@@ -823,23 +850,7 @@ a:not([class]) {
   cursor: pointer;
 }
 
-.movie-info-vote {
-  background-color: #ff6b01;
-  border-radius: 5px;
-  color: #fff;
-  text-align: center;
-  font-family: Roboto;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  text-transform: uppercase;
-  width: 36px;
-  display: flex;
-  height: 16px;
-  align-items: center;
-  justify-content: center;
-}
+/* hasta aquí */
 
 /* hasta aquí */
 
