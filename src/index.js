@@ -29,7 +29,7 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
 // Global Variables
 let page = 1;
 let currentContext = 'home';
-let genresList;
+let genresList = [];
 let currentPage = 1;
 const moviesPerPage = 20;
 
@@ -180,8 +180,6 @@ function showMovieDetailsInModal(movie) {
   } else {
     try {
       const {
-        title,
-        name,
         overview,
         vote_average,
         vote_count,
@@ -191,7 +189,10 @@ function showMovieDetailsInModal(movie) {
         original_name,
         poster_path,
       } = movie;
-      const altText = title ? `${title} (Movie)` : `${name} (TV Series)`;
+
+      const altText = movie.title
+        ? `${movie.title} (Movie)`
+        : `${movie.name} (TV Series)`;
       const originalTitle = original_title || original_name || 'N/A';
 
       const detailsHTML = `
@@ -213,10 +214,11 @@ function showMovieDetailsInModal(movie) {
             <p><strong>ABOUT:</strong> ${overview}</p>
           </div>
           <div class="movie-button">
-            <button class="btn-add-watched">ADD TO WATCHED</button>
-            <button class="btn-add-queue">ADD TO QUEUE</button>
+            <button class="btn-add-watched" id="watchedButton">ADD TO WATCHED</button>
+            <button class="btn-add-queue" id="queueButton">ADD TO QUEUE</button>
           </div>
         </div>
+      </div>
       `;
       movieDetailsContainer.innerHTML = detailsHTML;
       showModal();
@@ -225,16 +227,71 @@ function showMovieDetailsInModal(movie) {
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
     }
   }
-  document
-    .querySelector('.btn-add-watched')
-    .addEventListener('click', function () {
-      addToWatched(movie);
-    });
-  document
-    .querySelector('.btn-add-queue')
-    .addEventListener('click', function () {
-      addToQueue(movie);
-    });
+  try {
+    const watchedButton = document.getElementById('watchedButton');
+    const queueButton = document.getElementById('queueButton');
+    if (watchedButton && queueButton) {
+      watchedButton.addEventListener('click', function () {
+        addToWatched(movie);
+      });
+      queueButton.addEventListener('click', function () {
+        addToQueue(movie);
+      });
+    } else {
+      throw new Error('Buttons not found in the DOM');
+    }
+  } catch (error) {
+    console.error('Error setting up event listeners:', error);
+    Notiflix.Notify.failure('An error occurred while setting up the modal.');
+  }
+}
+
+function renderMovieDetailsInModal(movieDetails) {
+  const {
+    overview,
+    vote_average,
+    vote_count,
+    genre_ids,
+    popularity,
+    original_title,
+    original_name,
+    poster_path,
+  } = movie;
+
+  const altText = movie.title
+    ? `${movie.title} (Movie)`
+    : `${movie.name} (TV Series)`;
+  const originalTitle = original_title || original_name || 'N/A';
+
+  console.log(movie);
+
+  const detailsHTML = `
+  <div class="movie-details-container">
+    <div class="movie-image-container">
+      <img src="${IMAGE_BASE_URL}${poster_path}" alt="${altText}" class="movie-image">
+    </div>
+    <div class ="movie-info-btn-container">      
+      <div class="movie-info-container">
+        <h2>${altText}</h2>
+        <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
+          1
+        )} </span> / ${vote_count}</p>
+        <p><strong>Popularity</strong> ${popularity}</p>
+        <p><strong>Original Title</strong> ${originalTitle}</p>
+        <p><strong>Genre</strong> ${
+          getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+        }</p>
+        <p><strong>ABOUT:</strong> ${overview}</p>
+      </div>
+      <div class="movie-button">
+        <button class="btn-add-watched" id="watchedButton">ADD TO WATCHED</button>
+        <button class="btn-add-queue" id="queueButton">ADD TO QUEUE</button>
+      </div>
+    </div>
+  </div>
+  `;
+  movieDetailsContainer.innerHTML = detailsHTML;
+  showModal();
 }
 
 // Cómo opera el Modal
@@ -489,7 +546,7 @@ function paginateLocalStorage(context, pageNumber) {
   });
 }
 
-// MODAL TEAM 
+// MODAL TEAM
 
 openModal.addEventListener('click', openModalTeam);
 closeModal.addEventListener('click', closeModalTeam);
@@ -529,4 +586,4 @@ function onBackdropClose(event) {
   }
 }
 
-// END MODAL TEAM 
+// END MODAL TEAM
