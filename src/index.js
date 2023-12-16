@@ -16,6 +16,11 @@ const loader = document.querySelector('.loader');
 const watchedButton = document.getElementById('watchedButton');
 const queueButton = document.getElementById('queueButton');
 
+const openModal = document.querySelector('.open-modal-team');
+const closeModal = document.querySelector('.close-modal-team');
+const teamBackdrop = document.querySelector('.modal__team-backdrop');
+const teamModal = document.getElementsByClassName('modal__team');
+
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -483,3 +488,45 @@ function paginateLocalStorage(context, pageNumber) {
     gallery.appendChild(card);
   });
 }
+
+// MODAL TEAM 
+
+openModal.addEventListener('click', openModalTeam);
+closeModal.addEventListener('click', closeModalTeam);
+
+function openModalTeam(event) {
+  teamBackdrop.classList.remove('team__backdrop--hidden');
+  document.addEventListener('keydown', onEscapeClose);
+  document.addEventListener('click', onBackdropClose);
+  teamModal[0].classList.add('openModalAnimationTeam');
+}
+
+function closeModalTeam(event) {
+  teamModal[0].classList.remove('closeModalAnimationTeam');
+  teamBackdrop.classList.add('team__backdrop--hidden');
+  document.removeEventListener('keydown', onEscapeClose);
+  document.body.style.overflow = '';
+}
+
+function onEscapeClose(event) {
+  if (event.code === 'Escape') {
+    teamModal[0].classList.remove('openModalAnimationTeam');
+    teamModal[0].classList.add('closeModalAnimationTeam');
+    setTimeout(() => {
+      closeModalTeam();
+    }, 200);
+    closeModalTeam();
+  }
+}
+
+function onBackdropClose(event) {
+  if (event.target === teamBackdrop) {
+    teamModal[0].classList.remove('openModalAnimationTeam');
+    teamModal[0].classList.add('closeModalAnimationTeam');
+    setTimeout(() => {
+      closeModalTeam();
+    }, 200);
+  }
+}
+
+// END MODAL TEAM 
