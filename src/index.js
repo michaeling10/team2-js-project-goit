@@ -1,5 +1,4 @@
-'use-strict';
-//Imports
+'use strict'; // Modo estricto activado correctamen//Imports
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
@@ -13,8 +12,14 @@ const searchButton = document.getElementById('searchButton');
 const mybutton = document.getElementById('back-to-top-btn');
 const movieDetailsContainer = document.getElementById('movie-details-modal');
 const modal = document.getElementById('myModal');
+const loader = document.querySelector('.loader');
 const watchedButton = document.getElementById('watchedButton');
 const queueButton = document.getElementById('queueButton');
+
+const openModal = document.querySelector('.open-modal-team');
+const closeModal = document.querySelector('.close-modal-team');
+const teamBackdrop = document.querySelector('.modal__team-backdrop');
+const teamModal = document.getElementsByClassName('modal__team');
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -29,40 +34,74 @@ let currentPage = 1;
 const moviesPerPage = 20;
 
 // Event Listeners
+
 homeBtn.addEventListener('click', showHomePage);
+
 libraryBtn.addEventListener('click', showLibraryPage);
-searchButton.addEventListener('click', performSearch);
-watchedButton.addEventListener('click', displayWatchedMovies);
-queueButton.addEventListener('click', displayQueueMovies);
+if (searchButton) {
+  searchButton.addEventListener('click', performSearch);
+}
+if (watchedButton) {
+  watchedButton.addEventListener('click', displayWatchedMovies);
+}
+if (queueButton) {
+  queueButton.addEventListener('click', displayQueueMovies);
+}
 
 // Initialization
 init();
 
+// Función para el loader
+function showLoader() {
+  loader.style.display = 'block';
+}
+function hideLoader() {
+  loader.style.display = 'none';
+}
+
+function showPageContent() {
+  document.body.classList.remove('hidden');
+  const onloadElement = document.getElementById('onload');
+  if (onloadElement) {
+    onloadElement.classList.remove('loader-position');
+  }
+}
 // Functions
-function init() {
-  /* showLibraryPage(); */
-  /* fetchGenres(); */
+async function init() {
+  try {
+    genresList = await getGenresList();
+    if (window.location.pathname.includes('library.html')) {
+      showLibraryPage();
+    } else {
+      showHomePage();
+    }
+  } catch (error) {
+    console.error('Error initializing:', error);
+  }
 }
 
 function showHomePage() {
+  document.body.classList.add('hidden');
+  document.getElementById('onload').classList.add('loader-position');
+  homePage.style.display = 'block';
   gallery.innerHTML = '';
-  searchInput.value = '';
   currentContext = 'home';
   page = 1;
-  getMovies('trending/all/day');
-  /* searchInput.style.display = 'block';
-  searchButton.style.display = 'block'; */
-  watchedButton.style.display = 'none';
-  queueButton.style.display = 'none';
+  showLoader();
+
+  setTimeout(function () {
+    getMovies('trending/all/day');
+    setTimeout(function () {
+      hideLoader();
+      showPageContent();
+    }); // Ajusta el tiempo según sea necesario
+  }, 1000);
 }
 
 function showLibraryPage() {
   Notiflix.Notify.info('Personal Library displayed');
-  searchInput.style.display = 'none';
-  searchButton.style.display = 'none';
-  watchedButton.style.display = 'block';
-  queueButton.style.display = 'block';
   currentContext = 'watched';
+  console.log('Se cargo Library');
   displayWatchedMovies();
 }
 
@@ -99,16 +138,17 @@ function createMovieCard(movie) {
   const img = document.createElement('img');
   img.classList.add('movie-img');
   img.src = `${IMAGE_BASE_URL}${movie.poster_path}`;
-  img.alt = movie.title;
+  img.alt = movie.title || movie.name || 'N/A';
 
   const movieInfo = document.createElement('div');
   movieInfo.classList.add('movie-info');
   movieInfo.innerHTML = `
-    <p class="movie-title">${movie.title}</p>
+    <p class="movie-title">${movie.title || movie.name || 'N/A'}</p>
     <p class="movie-genres">${getGenres(movie.genre_ids, genresList)}</p>
-    <p class="movie-release">${getReleaseYear(movie.release_date)}</p>
+    <p class="movie-release">${getReleaseYear(
+      movie.release_date || movie.first_air_date
+    )}</p>
   `;
-
   card.appendChild(img);
   card.appendChild(movieInfo);
 
@@ -116,27 +156,11 @@ function createMovieCard(movie) {
     event.preventDefault();
     showMovieDetailsInModal(movie);
   });
-
+  console.log('Movie Object:', movie);
   return card;
 }
 
-function fetchGenres() {
-  axios
-    .get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`)
-    .then(response => {
-      genresList = response.data.genres;
-    })
-    .catch(error => console.error('Error fetching genres:', error));
-}
-
-async function init() {
-  try {
-    genresList = await getGenresList();
-    showHomePage();
-  } catch (error) {
-    console.error('Error initializing:', error);
-  }
-}
+// Modal con la información de la película
 
 function showMovieDetailsInModal(movie) {
   if (typeof movie === 'number') {
@@ -157,30 +181,36 @@ function showMovieDetailsInModal(movie) {
     try {
       const {
         title,
+        name,
         overview,
-        release_date,
         vote_average,
-        genres,
+        vote_count,
+        genre_ids,
         popularity,
         original_title,
+        original_name,
         poster_path,
       } = movie;
+      const altText = title ? `${title} (Movie)` : `${name} (TV Series)`;
+      const originalTitle = original_title || original_name || 'N/A';
 
       const detailsHTML = `
       <div class="movie-details-container">
         <div class="movie-image-container">
-          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${title}" class="movie-image">
+          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${altText}" class="movie-image">
         </div>
-        <div class ="movie-info-btn-container">
-      
+        <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
-            <h2>${title} (${getReleaseYear(release_date)})</h2>
-            <p><strong>Vote / Votes</strong> ${vote_average}</p>
+            <h2>${altText}</h2>
+            <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
+              1
+            )} </span> / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
-            <p><strong>Original Title</strong> ${original_title}</p>
-            <p><strong>Genres:</strong> ${getGenres(genres)}</p>
-
-            <p><strong>Overview</strong> ${overview}</p>
+            <p><strong>Original Title</strong> ${originalTitle}</p>
+            <p><strong>Genre</strong> ${
+              getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+            }</p>
+            <p><strong>ABOUT:</strong> ${overview}</p>
           </div>
           <div class="movie-button">
             <button class="btn-add-watched">ADD TO WATCHED</button>
@@ -188,7 +218,6 @@ function showMovieDetailsInModal(movie) {
           </div>
         </div>
       `;
-
       movieDetailsContainer.innerHTML = detailsHTML;
       showModal();
     } catch (error) {
@@ -207,6 +236,8 @@ function showMovieDetailsInModal(movie) {
       addToQueue(movie);
     });
 }
+
+// Cómo opera el Modal
 function showModal() {
   modal.style.display = 'block';
 
@@ -231,16 +262,25 @@ function showModal() {
 // Función para obtener la lista de géneros
 async function getGenresList() {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}`
-    );
-    return response.data.genres;
+    const [movieGenresResponse, tvGenresResponse] = await Promise.all([
+      axios.get(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`),
+      axios.get(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}`),
+    ]);
+
+    const movieGenres = movieGenresResponse.data.genres;
+    const tvGenres = tvGenresResponse.data.genres;
+
+    // Unir las dos listas de géneros
+    const allGenres = [...movieGenres, ...tvGenres];
+
+    return allGenres;
   } catch (error) {
     console.error('Error fetching genres list:', error);
     throw error;
   }
 }
 
+// Comparación entre la lista de géneros y los ID de los géneros
 function getGenres(genreIds, genresList) {
   if (!genreIds || !Array.isArray(genreIds) || genreIds.length === 0) {
     return 'N/A';
@@ -248,52 +288,71 @@ function getGenres(genreIds, genresList) {
 
   const genreNames = genreIds.map(id => {
     const genre = genresList.find(genre => genre.id === id);
-    return genre ? genre.name : 'Unknown Genre';
+    return genre ? genre.name : '';
   });
 
   return genreNames.join(', ');
 }
 
 function getReleaseYear(releaseDate) {
-  return releaseDate ? releaseDate.slice(0, 4) : 'N/A';
+  if (releaseDate) {
+    return releaseDate.slice(0, 4);
+  } else {
+    return 'N/A';
+  }
 }
 
 function performSearch() {
+  document.body.classList.add('hidden');
+  document.getElementById('onload').classList.add('loader-position');
   currentContext = 'search';
   const searchTerm = searchInput.value.trim();
   if (searchTerm === '') {
     Notiflix.Notify.warning('Please enter a search term.');
     return;
   }
+  showLoader();
   clearGallery();
   page = 1;
-  searchMovies(searchTerm);
-}
-
-function searchMovies(searchTerm) {
-  clearGallery();
-  page = 1;
-  axios
-    .get(
-      `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
-    )
-    .then(response => {
-      const totalPages = response.data.total_pages;
-      const totalItems = response.data.total_results;
-      const movies = response.data.results;
-
-      if (movies.length === 0) {
-        Notiflix.Notify.info('No movies found for the search term.');
-      } else {
-        Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
-        renderMovies(movies);
-        createPagination(totalPages);
-      }
+  searchMovies(searchTerm)
+    .then(() => {
+      setTimeout(function () {
+        hideLoader();
+        showPageContent();
+      }, 1000);
     })
     .catch(error => {
       console.error('Error fetching movies:', error);
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
+      hideLoader();
     });
+}
+
+function searchMovies(searchTerm) {
+  clearGallery();
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${page}`
+      )
+      .then(response => {
+        const totalPages = response.data.total_pages;
+        const totalItems = response.data.total_results;
+        const movies = response.data.results;
+
+        if (movies.length === 0) {
+          Notiflix.Notify.info('No movies found for the search term.');
+        } else {
+          Notiflix.Notify.success(`Hooray! We found ${totalItems} movies.`);
+          renderMovies(movies);
+          createPagination(totalPages);
+        }
+        resolve();
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 }
 
 function clearGallery() {
@@ -370,9 +429,15 @@ function addToQueue(movie) {
 }
 
 function displayWatchedMovies() {
-  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
+  watchedButton.style.backgroundColor = '#ff6b08';
+  watchedButton.style.boxShadow = '0 0 15px #ff6b08';
+  watchedButton.style.border = 'none';
+  queueButton.style.backgroundColor = 'transparent';
+  queueButton.style.boxShadow = 'none';
+  queueButton.style.border = '1px solid white';
   clearGallery();
   currentContext = 'watched';
+  let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
   const startIndex = (currentPage - 1) * moviesPerPage;
   const endIndex = startIndex + moviesPerPage;
   watchedMovies.slice(startIndex, endIndex).forEach(movie => {
@@ -385,6 +450,12 @@ function displayWatchedMovies() {
 }
 
 function displayQueueMovies() {
+  watchedButton.style.backgroundColor = 'transparent';
+  watchedButton.style.boxShadow = 'none';
+  watchedButton.style.border = '1px solid white';
+  queueButton.style.backgroundColor = '#ff6b08';
+  queueButton.style.boxShadow = '0 0 15px #ff6b08';
+  queueButton.style.border = 'none';
   currentContext = 'queue';
   clearGallery();
   let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
@@ -417,3 +488,45 @@ function paginateLocalStorage(context, pageNumber) {
     gallery.appendChild(card);
   });
 }
+
+// MODAL TEAM 
+
+openModal.addEventListener('click', openModalTeam);
+closeModal.addEventListener('click', closeModalTeam);
+
+function openModalTeam(event) {
+  teamBackdrop.classList.remove('team__backdrop--hidden');
+  document.addEventListener('keydown', onEscapeClose);
+  document.addEventListener('click', onBackdropClose);
+  teamModal[0].classList.add('openModalAnimationTeam');
+}
+
+function closeModalTeam(event) {
+  teamModal[0].classList.remove('closeModalAnimationTeam');
+  teamBackdrop.classList.add('team__backdrop--hidden');
+  document.removeEventListener('keydown', onEscapeClose);
+  document.body.style.overflow = '';
+}
+
+function onEscapeClose(event) {
+  if (event.code === 'Escape') {
+    teamModal[0].classList.remove('openModalAnimationTeam');
+    teamModal[0].classList.add('closeModalAnimationTeam');
+    setTimeout(() => {
+      closeModalTeam();
+    }, 200);
+    closeModalTeam();
+  }
+}
+
+function onBackdropClose(event) {
+  if (event.target === teamBackdrop) {
+    teamModal[0].classList.remove('openModalAnimationTeam');
+    teamModal[0].classList.add('closeModalAnimationTeam');
+    setTimeout(() => {
+      closeModalTeam();
+    }, 200);
+  }
+}
+
+// END MODAL TEAM 

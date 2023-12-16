@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -60,19 +61,20 @@
             <button type="submit" class="header__search-btn" id="searchButton">
               <span class="header__search-icon"></span>
             </button>
-            <button id="watchedButton">WATCHED</button>
-            <button id="queueButton">QUEUE</button>
           </div>
         </div>
       </div>
     </header>
 
     <main id="main-content">
-      <div id="home-page" class="div-pagination">
+      <div class="loader-position" id="onload">
+        <span class="loader"></span>
+      </div>
+      <div id="home-page">
         <div class="gallery"></div>
-        <div id="pagination-container" class="pagination-style"></div>
+        <div id="pagination-container"></div>
         <button
-          id="back-to-top-btn" class="btn-go-back-up"
+          id="back-to-top-btn"
           style="display: none; position: fixed; bottom: 20px; right: 20px"
         >
           ↑ Go back up
@@ -87,16 +89,59 @@
         </div>
       </div>
       <!-- End Modal -->
+
+      <!--MODAL-TEAM-->
+
+    <div class="modal__team-backdrop team__backdrop--hidden">
+      <div class="modal__team">
+           <button class="modal__team-close close-modal-team">
+             <svg class="modal__team-icon team__icon-close" width="25" height="25">
+               <use href="/src/images/icons.svg#icon-close"></use>
+             </svg>
+           </button>
+           <h1 class="modal__team-title">Team 2 - Full Stack 10 LatAm</h1>
+           <div class="modal__team-box">
+              <div class="modal__team-info">
+                <p class="modal__team-name">Michael Cáceres</p>
+                <p class="modal__team-role">Team Lead</p>
+              </div>
+              <div class="modal__team-info">
+                <p class="modal__team-name">Adrián Gallo</p>
+                <p class="modal__team-role">Developer</p>
+              </div>
+              <div class="modal__team-info">
+                <p class="modal__team-name">Edison Alvarez</p>
+                <p class="modal__team-role">Developer</p>
+              </div>
+              <div class="modal__team-info">
+                <p class="modal__team-name">Milena Bolaños</p>
+                <p class="modal__team-role">Developer</p>
+              </div>
+              <div class="modal__team-info">
+                <p class="modal__team-name">Didier Mendivelso</p>
+                <p class="modal__team-role">Developer</p>
+              </div>
+              <div class="modal__team-info">
+                <p class="modal__team-name">Yosimar Guaza</p>
+                <p class="modal__team-role">Developer</p>
+              </div>
+           </div>
+      </div>
+    </div>
+
+    <!--END MODAL TEAM-->
     </main>
 
     <!--FOOTER-->
-    <footer>
+    <footer class="footer">
       <div class="footer__container">
-        <p class="footer__text">&#169; 2023 | All Rights Reserved |</p>
+        <p class="footer__text">
+          &#169; 2023 | All Rights Reserved |
+        </p>
         <div class="footer__sub">
           Developed with
           <img
-            class="footer__icon N"
+            class="footer__icon"
             src="images/footer/footer_icon.png"
             alt="footer_icon"
             width="14"
@@ -109,3 +154,4 @@
     <script src="./index.js" type="module"></script>
   </body>
 </html>
+
