@@ -38,6 +38,16 @@ const moviesPerPage = 20;
 homeBtn.addEventListener('click', showHomePage);
 
 libraryBtn.addEventListener('click', showLibraryPage);
+// buscar si pulsa enter --- > edison
+if (searchInput) {
+  searchInput.addEventListener("keyup", function(event){
+    if(event.key === "Enter"){
+      performSearch();
+    }
+  })  
+  
+}
+
 if (searchButton) {
   searchButton.addEventListener('click', performSearch);
 }
