@@ -532,10 +532,6 @@ a:not([class]) {
   padding-top: 60px;
 }
 
-
-
-@media (min-width: 320px) {  /* modificado  */
-  
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -545,17 +541,7 @@ a:not([class]) {
     border: 1px solid #888;
     width: 280px;
     height: auto;
-
-    /* width: 90%; */
-  .movie-image-container {
-    margin: 40px 20px 0;
-    width: 240px;
-    height: 356;
-  }
-  .movie-image {
-    width: 100%; 
-    height: 100%;
-    object-fit: cover;
+    
   }
 
   @media screen and (min-width: 768px) {
@@ -564,88 +550,19 @@ a:not([class]) {
     }
   }
 
-
-  .movie-info-btn-container {
-    width: 250px;
-    margin: 13px 15px 9px;
+  @media screen and (min-width: 1024px) {
+    .modal-content {
+      width: 882px;
+    }
   }
-
-  .movie-button {
+  
+  .movie-details-container {
+    width: 100%;
+    height: 100%;
     display: flex;
-    margin-bottom: 15px;
+    flex-direction: column;
+    padding-bottom: 30px;
   }
-  .btn-add-queue {
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 1px solid #000;
-    width: 112.5px;
-    height: 44px;
-    cursor: pointer;
-    background-color: #FFF;
-  }
-  .btn-add-watched {
-    border: 1px solid #000;
-    border-radius: 5px;
-    width: 112.5px;
-    height: 44px;
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-right: 12px;
-    background-color: #FFF;
-  }
-  .movie-info-container{
-    margin-bottom: 10px;
-  }
-  
-  .movie-info-container h2 {
-    margin: 0;
-    color: #000;
-    font-family: Roboto;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin-bottom: 21px;
-  }  
-
-
-  .movie-info-container strong {
-    width: 85px;
-    margin-bottom: 10px;
-    color: #8c8c8c;
-  }
-  .movie-info-container p {
-    
-    width: 250px;
-    
-}
-}
-
-@media screen and (min-width: 768px) { /* modificado */
-  
-  .modal-content {
-    background-color: #fefefe;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid #888;
-    height: auto;
-
 
   @media screen and (min-width: 768px) {
     .movie-details-container {
@@ -655,19 +572,18 @@ a:not([class]) {
   }
 
   .movie-image-container {
-
-    object-fit: cover;
-    margin: 31px 32px 20px 28px;
-    width: 264px;
-    height: 373.5px;
+    width: 240px;
+    height: 356.5;
+    margin: 48px 20px 0 20px;
   }
-  .movie-image {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-  .movie-info-container {
-    margin: 25px 0px 20px 0;
+  
+  @media screen and (min-width: 768px) {
+    .movie-image-container {
+      width: 264px;
+      height: 373.5;
+      object-fit: cover;
+    margin: 42px 32px 0px 28px;
+    }
   }
 
   @media screen and (min-width: 1024px) {
@@ -679,86 +595,18 @@ a:not([class]) {
     }
   }
 
-  .btn-add-queue {
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    border: 1px solid #000;
-    width: 125px;
-    height: 44px;
-    cursor: pointer;
-    background-color: #FFF;
-  }
-  .btn-add-watched {
-    border: 1px solid #000;
-    border-radius: 5px;
-    width: 125px;
-    height: 44px;
-    color: #000;
-    text-align: center;
-    font-family: Roboto;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    text-transform: uppercase;
-    cursor: pointer;
-    margin-right: 12px;
-    background-color: #FFF;
-  }
-
-  .movie-details-container {
-    display: flex;
-    flex-direction: row;
-  }
-  .movie-info-btn-container {
-    margin: 8px 0px 0px 0;
-    width: 274px;
-  }
-
-
-@media screen and (min-width: 1024px) {  /* modificado */
-  .modal-content {
-    background-color: #fefefe;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    border: 1px solid #888;
-    width: auto;
-    height: auto;
-  }
-  .movie-details-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-  }
-  .movie-image-container {
-    width: 396px;
-    height: 477.8px;
-    margin: 50px 30px 40px 30px;
-    object-fit: unset;
-  }
-
   .movie-image {
     width: 100%;
     height: 100%;
-    object-fit: unset;
-}
-
-  .movie-info-container {
-    margin: 50px 30px 20px 0;
+    
   }
- }
-  
- @media screen and (min-width: 768px) {
+
+  .movie-info-btn-container {
+    margin: 30px 20px 0px 20px;
+    width: 240px;
+  }
+
+  @media screen and (min-width: 768px) {
     .movie-info-btn-container {
       margin-bottom: 30px;
       width: 264px;
@@ -771,7 +619,9 @@ a:not([class]) {
     .movie-info-btn-container {
       width: 396px;
     }
-  }
+  }.movie-button {
+  display: flex;
+}
 
 .movie-button {
   display: flex;
@@ -779,30 +629,31 @@ a:not([class]) {
   padding-top: 10px;
 }
 
-
-
-  .movie-info-container h2 {
-    color: #000;
-    font-family: Roboto;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    margin-bottom: 21px;
-  }
-    
-    @media screen and (min-width: 768px) {
+  @media screen and (min-width: 768px) {
     .movie-info-container {
       margin: 18px 30px 5px 0;
     }
+  }
+  
+  .movie-info-container h2 {
+    margin: 0;
+    color: #000;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding-bottom: 15px;
+  }
 
   @media screen and (min-width: 1024px) {
     .movie-info-container h2 {
       font-size: 30px;
     }
+  }
 
   .movie-info-container strong {
-    width: 111px;
+    width: 106px;
     margin-bottom: 10px;
     color: #8c8c8c;
   }
@@ -830,7 +681,7 @@ a:not([class]) {
     width: 112.5px;
     height: 44px;
     cursor: pointer;
-    background-color: #FFF;
+    background-color: #fefefe;
   }
 
   .btn-add-watched {
@@ -848,11 +699,7 @@ a:not([class]) {
     text-transform: uppercase;
     cursor: pointer;
     margin-right: 12px;
-    background-color: #FFF;
-  }
-  .movie-info-btn-container {
-    margin: 0;
-    width: 396px;
+    background-color: #fefefe;
   }
   
   .btn-add-watched:hover,
@@ -895,7 +742,6 @@ a:not([class]) {
   line-height: 16px;
   display: flex;
   flex-direction: row;
-  width: auto;
 }
 
 .movie-info-container p:first-child {
@@ -905,7 +751,6 @@ a:not([class]) {
 }
 
 .movie-info-container p:last-child {
-  color: #000;
   flex-direction: column;
   font-family: Roboto;
   font-size: 12px;
@@ -921,7 +766,7 @@ a:not([class]) {
   font-size: 28px;
   font-weight: bold;
   position: fixed;
-  top: 2px;
+  top: 10px;
   right: 10px;
 }
 
