@@ -541,7 +541,7 @@ a:not([class]) {
 @media (min-width: 320px) {
   /* modificado  */
 
-  .modal-content {
+  .modal-content-window {
     background-color: #fefefe;
     position: fixed;
     top: 50%;
@@ -639,7 +639,7 @@ a:not([class]) {
 @media screen and (min-width: 768px) {
   /* modificado */
 
-  .modal-content {
+  .modal-content-window {
     background-color: #fefefe;
     position: fixed;
     top: 50%;
@@ -729,7 +729,7 @@ a:not([class]) {
 
 @media screen and (min-width: 1024px) {
   /* modificado */
-  .modal-content {
+  .modal-content-window {
     background-color: #fefefe;
     position: fixed;
     top: 50%;
