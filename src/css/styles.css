@@ -63,6 +63,7 @@ a:not([class]) {
 /*HEADER*/
 
 .header {
+  z-index: 0;
   height: 216px;
   background-color: #0000008f;
   background-image: url('../images/header/mob-background-home-1x.jpg');
@@ -313,6 +314,7 @@ a:not([class]) {
 /*SECTION LIBRARY*/
 
 .header__library {
+  z-index: 0;
   position: relative;
   top: 0;
   left: 0;
@@ -321,7 +323,6 @@ a:not([class]) {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 100;
 }
 
 @media (min-device-pixel-ratio: 2),
@@ -406,7 +407,6 @@ a:not([class]) {
 }
 
 @media screen and (min-width: 768px) {
-
   .footer {
     height: 79px;
     padding-top: 30px;
@@ -421,13 +421,12 @@ a:not([class]) {
   }
 }
 
-  .footer__text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #545454;
-  }
-
+.footer__text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #545454;
+}
 
 .footer__sub {
   color: #545454;
@@ -452,7 +451,6 @@ a:not([class]) {
 .footer__link:focus {
   color: #ff6b08;
 }
-
 
 /*GALLERY*/
 
@@ -526,12 +524,13 @@ a:not([class]) {
   background-color: #ff6b08;
   box-shadow: 0 0 15px #ff6b08;
   transition: all 0.3s ease-in-out;
-  color:#fefefe;
+  color: #fefefe;
 }
 /* Estilos del modal */
 
-@media (min-width: 320px) {  /* modificado  */
-  
+@media (min-width: 320px) {
+  /* modificado  */
+
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -549,7 +548,7 @@ a:not([class]) {
     height: 356;
   }
   .movie-image {
-    width: 100%; 
+    width: 100%;
     height: 100%;
     object-fit: cover;
   }
@@ -582,7 +581,7 @@ a:not([class]) {
     width: 112.5px;
     height: 44px;
     cursor: pointer;
-    background-color: #FFF;
+    background-color: #fff;
   }
   .btn-add-watched {
     border: 1px solid #000;
@@ -599,12 +598,12 @@ a:not([class]) {
     text-transform: uppercase;
     cursor: pointer;
     margin-right: 12px;
-    background-color: #FFF;
+    background-color: #fff;
   }
-  .movie-info-container{
+  .movie-info-container {
     margin-bottom: 10px;
   }
-  
+
   .movie-info-container h2 {
     margin: 0;
     color: #000;
@@ -614,8 +613,7 @@ a:not([class]) {
     font-weight: 500;
     line-height: normal;
     margin-bottom: 21px;
-  }  
-
+  }
 
   .movie-info-container strong {
     width: 85px;
@@ -623,14 +621,13 @@ a:not([class]) {
     color: #8c8c8c;
   }
   .movie-info-container p {
-    
     width: 250px;
-    
-}
+  }
 }
 
-@media screen and (min-width: 768px) { /* modificado */
-  
+@media screen and (min-width: 768px) {
+  /* modificado */
+
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -678,7 +675,7 @@ a:not([class]) {
     width: 125px;
     height: 44px;
     cursor: pointer;
-    background-color: #FFF;
+    background-color: #fff;
   }
   .btn-add-watched {
     border: 1px solid #000;
@@ -695,10 +692,9 @@ a:not([class]) {
     text-transform: uppercase;
     cursor: pointer;
     margin-right: 12px;
-    background-color: #FFF;
+    background-color: #fff;
   }
 
-  
   .movie-info-container h2 {
     margin: 0;
     color: #000;
@@ -720,7 +716,8 @@ a:not([class]) {
   }
 }
 
-@media screen and (min-width: 1024px) {  /* modificado */
+@media screen and (min-width: 1024px) {
+  /* modificado */
   .modal-content {
     background-color: #fefefe;
     position: fixed;
@@ -748,13 +745,11 @@ a:not([class]) {
     width: 100%;
     height: 100%;
     object-fit: unset;
-}
+  }
 
   .movie-info-container {
     margin: 50px 30px 20px 0;
   }
-
-
 
   .movie-info-container h2 {
     color: #000;
@@ -785,7 +780,7 @@ a:not([class]) {
     width: 136px;
     height: 44px;
     cursor: pointer;
-    background-color: #FFF;
+    background-color: #fff;
   }
   .btn-add-watched {
     border: 1px solid #000;
@@ -802,7 +797,7 @@ a:not([class]) {
     text-transform: uppercase;
     cursor: pointer;
     margin-right: 12px;
-    background-color: #FFF;
+    background-color: #fff;
   }
   .movie-info-btn-container {
     margin: 0;
@@ -895,7 +890,6 @@ a:not([class]) {
 .paginationjs-pages ul {
   list-style: none;
 }
-
 
 /* Loader */
 .hidden {
@@ -994,8 +988,6 @@ a:not([class]) {
   padding-left: 20px;
 }
 
-
-
 .modal__team-title {
   padding-top: 50px;
   padding-bottom: 20px;
@@ -1007,24 +999,20 @@ a:not([class]) {
   text-shadow: 1px 1px 1px #ccc, 1px -1px 1px #ccc, -1px 1px 1px #ccc,
     -1px -1px 1px #ccc;
   transition: all 1s;
- 
 }
-
 
 .modal__team-title:hover,
 .modal__team-title:focus {
   transform: scale(1.05);
 }
 
-
 @media screen and (min-width: 768px) {
-  .modal__team-title{
+  .modal__team-title {
     padding-top: 50px;
     padding-bottom: 20px;
     margin-bottom: 30px;
     font-size: 30px;
   }
-  
 }
 
 .modal__team-box {
@@ -1040,7 +1028,6 @@ a:not([class]) {
   .modal__team-box {
     width: 490px;
     gap: 30px;
-    
   }
 }
 
@@ -1048,7 +1035,6 @@ a:not([class]) {
   .modal__team-box {
     width: 790px;
     gap: 45px;
-   
   }
 }
 
@@ -1073,27 +1059,73 @@ a:not([class]) {
   transition-duration: 0.5s;
 }
 
-
-@media (max-width: 320px){
-  .pagination-style{
+@media (max-width: 320px) {
+  .pagination-style {
     display: flex;
     justify-content: center;
     margin-bottom: 40px;
     margin-top: 10px;
     width: auto;
+  }
 
-   }
-  
-.paginationjs .paginationjs-pages li{
-  display: flex;
-  border: none;
-  font-size: 5px;
-  min-width: 8px;
-  height: 20px;
- 
+  .paginationjs .paginationjs-pages li {
+    display: flex;
+    border: none;
+    font-size: 5px;
+    min-width: 8px;
+    height: 20px;
+  }
+
+  .paginationjs .paginationjs-pages li.disabled > a {
+    color: black;
+    font-size: 20px;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paginationjs .paginationjs-pages li.active > a {
+    background-color: rgba(255, 107, 8, 1);
+    border-radius: 5px;
+  }
+  .paginationjs .paginationjs-pages li:last-child {
+    border: none;
+  }
+  .paginationjs .paginationjs-pages li > a {
+    min-width: 20px;
+  }
+  .btn-go-back-up {
+    background-image: url(../images/pagination/flecha-arriba.svg);
+    background-color: rgba(255, 107, 8, 1);
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 107, 8, 1);
+    border-radius: 25px;
+    border: none;
+    width: 25px;
+    height: 25px;
+    text-indent: -9999px;
+  }
 }
 
-.paginationjs .paginationjs-pages li.disabled>a{
+.pagination-style {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+.paginationjs .paginationjs-pages li.active > a {
+  background-color: rgba(255, 107, 8, 1);
+  border-radius: 5px;
+}
+
+.paginationjs .paginationjs-pages li {
+  border: none;
+  font-size: 20px;
+}
+
+.paginationjs .paginationjs-pages li.disabled > a {
   color: black;
   font-size: 20px;
   opacity: 1;
@@ -1101,17 +1133,10 @@ a:not([class]) {
   align-items: center;
   justify-content: center;
 }
-.paginationjs .paginationjs-pages li.active>a{
-  background-color: rgba(255, 107, 8, 1);
-  border-radius: 5px;
-}
-.paginationjs .paginationjs-pages li:last-child{
+.paginationjs .paginationjs-pages li:last-child {
   border: none;
 }
-.paginationjs .paginationjs-pages li>a{
-  min-width: 20px;
-}
-.btn-go-back-up{
+.btn-go-back-up {
   background-image: url(../images/pagination/flecha-arriba.svg);
   background-color: rgba(255, 107, 8, 1);
   justify-content: center;
@@ -1124,71 +1149,23 @@ a:not([class]) {
   text-indent: -9999px;
 }
 
-}
-
-
-.pagination-style{
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
-  margin-top: 20px;
- }
-
-.paginationjs .paginationjs-pages li.active>a{
-  background-color: rgba(255, 107, 8, 1);
-  border-radius: 5px;
-}
-
-
-.paginationjs .paginationjs-pages li{
-  border: none;
-  font-size: 20px;
-}
-
-.paginationjs .paginationjs-pages li.disabled>a{
-  color: black;
-  font-size: 20px;
-  opacity: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-}
-.paginationjs .paginationjs-pages li:last-child{
-  border: none;
-  
-}
-.btn-go-back-up{
-  
-   background-image: url(../images/pagination/flecha-arriba.svg);
-  background-color: rgba(255, 107, 8, 1);
-  justify-content: center;
-  align-items: center;
-  color: rgba(255, 107, 8, 1);
-  border-radius: 25px;
-  border: none;
-  width: 25px;
-  height: 25px;
-  text-indent: -9999px;
-}
-
 .modal__team-name:hover,
-  .modal__team-name:focus {
-    color: #ff6b08;
-  }
+.modal__team-name:focus {
+  color: #ff6b08;
+}
 
-  @media screen and (min-width: 768px) {
-    .modal__team-name{
-      font-size: 19px;
-      align-content: center;
-    }
+@media screen and (min-width: 768px) {
+  .modal__team-name {
+    font-size: 19px;
+    align-content: center;
   }
+}
 
-  @media screen and (min-width: 1280px) {
-    .modal__team-name{
-      font-size: 22px;
-    }
+@media screen and (min-width: 1280px) {
+  .modal__team-name {
+    font-size: 22px;
   }
+}
 
 .modal__team-role {
   font-size: 15px;
@@ -1197,7 +1174,7 @@ a:not([class]) {
 }
 
 @media screen and (min-width: 1280px) {
-  .modal__team-role{
+  .modal__team-role {
     font-size: 18px;
   }
 }
@@ -1210,3 +1187,8 @@ a:not([class]) {
 }
 
 /*END MODAL TEAM*/
+
+.btn-add-watched.active,
+.btn-add-queue.active {
+  background-color: orange;
+}

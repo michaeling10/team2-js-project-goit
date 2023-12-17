@@ -2,6 +2,18 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
+// API Constants
+const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
+const BASE_URL = 'https://api.themoviedb.org/3';
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
+
+// Global Variables
+let page = 1;
+let currentContext = 'home';
+let genresList = [];
+let currentPage = 1;
+const moviesPerPage = 20;
+
 // DOM Elements
 const homePage = document.getElementById('home-page');
 const libraryBtn = document.getElementById('library-btn');
@@ -15,68 +27,14 @@ const modal = document.getElementById('myModal');
 const loader = document.querySelector('.loader');
 const watchedButton = document.getElementById('watchedButton');
 const queueButton = document.getElementById('queueButton');
-
 const openModal = document.querySelector('.open-modal-team');
 const closeModal = document.querySelector('.close-modal-team');
 const teamBackdrop = document.querySelector('.modal__team-backdrop');
 const teamModal = document.getElementsByClassName('modal__team');
 
-// API Constants
-const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w400';
+// Function Definitions
 
-// Global Variables
-let page = 1;
-let currentContext = 'home';
-let genresList;
-let currentPage = 1;
-const moviesPerPage = 20;
-
-// Event Listeners
-
-homeBtn.addEventListener('click', showHomePage);
-
-libraryBtn.addEventListener('click', showLibraryPage);
-// buscar si pulsa enter --- > edison
-if (searchInput) {
-  searchInput.addEventListener("keyup", function(event){
-    if(event.key === "Enter"){
-      performSearch();
-    }
-  })  
-  
-}
-
-if (searchButton) {
-  searchButton.addEventListener('click', performSearch);
-}
-if (watchedButton) {
-  watchedButton.addEventListener('click', displayWatchedMovies);
-}
-if (queueButton) {
-  queueButton.addEventListener('click', displayQueueMovies);
-}
-
-// Initialization
-init();
-
-// Función para el loader
-function showLoader() {
-  loader.style.display = 'block';
-}
-function hideLoader() {
-  loader.style.display = 'none';
-}
-
-function showPageContent() {
-  document.body.classList.remove('hidden');
-  const onloadElement = document.getElementById('onload');
-  if (onloadElement) {
-    onloadElement.classList.remove('loader-position');
-  }
-}
-// Functions
+// Initialization function
 async function init() {
   try {
     genresList = await getGenresList();
@@ -87,6 +45,23 @@ async function init() {
     }
   } catch (error) {
     console.error('Error initializing:', error);
+  }
+}
+
+// Functions to show and hide the loader
+function showLoader() {
+  loader.style.display = 'block';
+}
+function hideLoader() {
+  loader.style.display = 'none';
+}
+
+// Functions to handle page content
+function showPageContent() {
+  document.body.classList.remove('hidden');
+  const onloadElement = document.getElementById('onload');
+  if (onloadElement) {
+    onloadElement.classList.remove('loader-position');
   }
 }
 
@@ -113,6 +88,14 @@ function showLibraryPage() {
   currentContext = 'watched';
   console.log('Se cargo Library');
   displayWatchedMovies();
+}
+
+// Functions to fetch and render movies
+
+function getMovieData(endpoint, query, pageNumber) {
+  return axios.get(
+    `${BASE_URL}/${endpoint}?api_key=${API_KEY}&query=${query}&page=${pageNumber}`
+  );
 }
 
 function getMovies(endpoint, query = '') {
@@ -170,8 +153,7 @@ function createMovieCard(movie) {
   return card;
 }
 
-// Modal con la información de la película
-
+// Modal handling functions
 function showMovieDetailsInModal(movie) {
   if (typeof movie === 'number') {
     axios
@@ -190,8 +172,6 @@ function showMovieDetailsInModal(movie) {
   } else {
     try {
       const {
-        title,
-        name,
         overview,
         vote_average,
         vote_count,
@@ -201,7 +181,10 @@ function showMovieDetailsInModal(movie) {
         original_name,
         poster_path,
       } = movie;
-      const altText = title ? `${title} (Movie)` : `${name} (TV Series)`;
+
+      const altText = movie.title
+        ? `${movie.title} (Movie)`
+        : `${movie.name} (TV Series)`;
       const originalTitle = original_title || original_name || 'N/A';
 
       const detailsHTML = `
@@ -214,7 +197,7 @@ function showMovieDetailsInModal(movie) {
             <h2>${altText}</h2>
             <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
               1
-            )} </span> / ${vote_count}</p>
+            )} </span>  / ${vote_count}</p>
             <p><strong>Popularity</strong> ${popularity}</p>
             <p><strong>Original Title</strong> ${originalTitle}</p>
             <p><strong>Genre</strong> ${
@@ -223,11 +206,13 @@ function showMovieDetailsInModal(movie) {
             <p><strong>ABOUT:</strong> ${overview}</p>
           </div>
           <div class="movie-button">
-            <button class="btn-add-watched">ADD TO WATCHED</button>
-            <button class="btn-add-queue">ADD TO QUEUE</button>
+            <button class="btn-add-watched modal-watchedButton" id="watchedButton">ADD TO WATCHED</button>
+            <button class="btn-add-queue modal-queueButton" id="queueButton">ADD TO QUEUE</button>
           </div>
         </div>
+      </div>
       `;
+
       movieDetailsContainer.innerHTML = detailsHTML;
       showModal();
     } catch (error) {
@@ -235,16 +220,114 @@ function showMovieDetailsInModal(movie) {
       Notiflix.Notify.failure('Oops! Something went wrong. Please try again.');
     }
   }
-  document
-    .querySelector('.btn-add-watched')
-    .addEventListener('click', function () {
-      addToWatched(movie);
-    });
-  document
-    .querySelector('.btn-add-queue')
-    .addEventListener('click', function () {
-      addToQueue(movie);
-    });
+
+  const watchedMButton = document.querySelector('.modal-watchedButton');
+  const queueMButton = document.querySelector('.modal-queueButton');
+  const isWatched = isMovieInList(movie, 'watchedMovies');
+  const isQueued = isMovieInList(movie, 'queueMovies');
+  console.log('Removido de watched');
+
+  if (watchedMButton) {
+    watchedMButton.onclick = () => addToWatched(movie, watchedMButton);
+    watchedMButton.disabled = isQueued;
+  }
+
+  if (queueMButton) {
+    queueMButton.onclick = () => addToQueue(movie, queueMButton);
+    queueMButton.disabled = isWatched;
+  }
+
+  if (isWatched) {
+    watchedMButton.style.backgroundColor = '#ff6b08'; // Color naranja
+    watchedMButton.disabled = false; // Deshabilita el botón
+    queueMButton.disabled = true; // Habilita el otro botón
+    queueMButton.style.backgroundColor = ''; // Restaura el color original
+    queueMButton.style.opacity = 0.5;
+    queueMButton.style.cursor = 'not-allowed';
+    queueMButton.style.pointerEvents = 'none';
+  } else if (isQueued) {
+    queueMButton.style.backgroundColor = '#ff6b08'; // Color naranja
+    queueMButton.disabled = false; // Deshabilita el botón
+    watchedMButton.disabled = true; // Habilita el otro botón
+    watchedMButton.style.backgroundColor = ''; // Restaura el color original
+    watchedMButton.style.opacity = 0.5;
+    watchedMButton.style.cursor = 'not-allowed';
+    watchedMButton.style.pointerEvents = 'none';
+  } else {
+    // Restablece ambos botones si la película no está en ninguna lista
+    watchedMButton.style.backgroundColor = '';
+    queueMButton.style.backgroundColor = '';
+    watchedMButton.disabled = false;
+    queueMButton.disabled = false;
+  }
+
+  if (watchedMButton && queueMButton) {
+    // Actualiza el estado y el texto de los botones
+    updateButtonState(
+      watchedMButton,
+      isWatched,
+      'ADD TO WATCHED',
+      'REMOVE FROM WATCHED'
+    );
+    updateButtonState(
+      queueMButton,
+      isQueued,
+      'ADD TO QUEUE',
+      'REMOVE FROM QUEUE'
+    );
+
+    // Event listeners para los botones
+    watchedMButton.onclick = () => toggleMovieInList(movie, 'watchedMovies');
+    queueMButton.onclick = () => toggleMovieInList(movie, 'queueMovies');
+  }
+}
+
+function renderMovieDetailsInModal(movieDetails) {
+  const {
+    overview,
+    vote_average,
+    vote_count,
+    genre_ids,
+    popularity,
+    original_title,
+    original_name,
+    poster_path,
+  } = movie;
+
+  const altText = movie.title
+    ? `${movie.title} (Movie)`
+    : `${movie.name} (TV Series)`;
+  const originalTitle = original_title || original_name || 'N/A';
+
+  console.log(movie);
+
+  const detailsHTML = `
+  <div class="movie-details-container">
+    <div class="movie-image-container">
+      <img src="${IMAGE_BASE_URL}${poster_path}" alt="${altText}" class="movie-image">
+    </div>
+    <div class ="movie-info-btn-container">      
+      <div class="movie-info-container">
+        <h2>${altText}</h2>
+        <p><strong>Vote / Votes</strong><span class="movie-info-vote"> ${vote_average.toFixed(
+          1
+        )} </span> / ${vote_count}</p>
+        <p><strong>Popularity</strong> ${popularity}</p>
+        <p><strong>Original Title</strong> ${originalTitle}</p>
+        <p><strong>Genre</strong> ${
+          getGenres ? getGenres(genre_ids, genresList) : 'N/A'
+        }</p>
+        <p><strong>ABOUT:</strong> ${overview}</p>
+      </div>
+      <div class="movie-button">
+        <button class="btn-add-watched modal-watchedButton" id="watchedButton">ADD TO WATCHED</button>
+        <button class="btn-add-queue modal-queueButton" id="queueButton">ADD TO QUEUE</button>
+      </div>
+    </div>
+  </div>
+  `;
+  movieDetailsContainer.innerHTML = detailsHTML;
+  showModal();
 }
 
 // Cómo opera el Modal
@@ -254,22 +337,37 @@ function showModal() {
   const span = document.querySelector('.close');
   span.addEventListener('click', () => {
     modal.style.display = 'none';
+    updateMovieList();
   });
 
   window.addEventListener('click', event => {
     if (event.target === modal) {
       modal.style.display = 'none';
+      updateMovieList();
     }
   });
 
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       modal.style.display = 'none';
+      updateMovieList();
     }
   });
 }
 
-// Función para obtener la lista de géneros
+function updateMovieList() {
+  if (currentContext === 'watched') {
+    displayWatchedMovies();
+  } else if (currentContext === 'queue') {
+    displayQueueMovies();
+  }
+}
+
+// Utility functions
+function clearGallery() {
+  gallery.innerHTML = '';
+}
+
 async function getGenresList() {
   try {
     const [movieGenresResponse, tvGenresResponse] = await Promise.all([
@@ -311,6 +409,31 @@ function getReleaseYear(releaseDate) {
     return 'N/A';
   }
 }
+
+function toggleMovieInList(movie, listName) {
+  let list = JSON.parse(localStorage.getItem(listName)) || [];
+  const index = list.findIndex(m => m.id === movie.id);
+
+  if (index === -1) {
+    list.push(movie);
+  } else {
+    list.splice(index, 1);
+  }
+
+  localStorage.setItem(listName, JSON.stringify(list));
+  showMovieDetailsInModal(movie);
+}
+
+function isMovieInList(movie, listName) {
+  let list = JSON.parse(localStorage.getItem(listName)) || [];
+  return list.some(m => m.id === movie.id);
+}
+
+function updateButtonState(button, isActive, textActive, textInactive) {
+  button.textContent = isActive ? textInactive : textActive;
+}
+
+//Search functions
 
 function performSearch() {
   document.body.classList.add('hidden');
@@ -365,9 +488,7 @@ function searchMovies(searchTerm) {
   });
 }
 
-function clearGallery() {
-  gallery.innerHTML = '';
-}
+//Pagination functions
 
 function createPagination(totalPages) {
   $('#pagination-container').pagination({
@@ -403,39 +524,49 @@ function createPagination(totalPages) {
   });
 }
 
-function getMovieData(endpoint, query, pageNumber) {
-  return axios.get(
-    `${BASE_URL}/${endpoint}?api_key=${API_KEY}&query=${query}&page=${pageNumber}`
-  );
-}
+//WATCHED & QUEUE functions
 
-//SCROLL BUTTON
-window.onscroll = function () {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = 'block';
-  } else {
-    mybutton.style.display = 'none';
-  }
-};
-
-mybutton.addEventListener('click', function () {
-  document.documentElement.scrollTop = 0;
-});
-
-//WATCHED & QUEUE
-
-function addToWatched(movie) {
+function addToWatched(movie, button) {
   let watchedMovies = JSON.parse(localStorage.getItem('watchedMovies')) || [];
-  watchedMovies.push(movie);
-  localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
-  Notiflix.Notify.success('Added to Watched');
+  const isWatched = watchedMovies.some(m => m.id === movie.id);
+  console.log('Removido de watched');
+
+  if (!isWatched) {
+    console.log('Removido de watched');
+    watchedMovies.push(movie);
+    localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
+    Notiflix.Notify.success('Added to Watched');
+    button.style.backgroundColor = '#ff6b08';
+  } else {
+    console.log('Removido de watched');
+    watchedMovies = watchedMovies.filter(m => m.id !== movie.id);
+    localStorage.setItem('watchedMovies', JSON.stringify(watchedMovies));
+    Notiflix.Notify.warning('Removed from Watched');
+    button.style.backgroundColor = '';
+    displayWatchedMovies();
+  }
 }
 
-function addToQueue(movie) {
+function addToQueue(movie, button) {
   let queueMovies = JSON.parse(localStorage.getItem('queueMovies')) || [];
-  queueMovies.push(movie);
+  const isQueued = queueMovies.some(m => m.id === movie.id);
+
+  if (!isQueued) {
+    queueMovies.push(movie);
+    Notiflix.Notify.success('Added to Queue');
+    button.textContent = 'REMOVE FROM QUEUE';
+    button.style.backgroundColor = '#ff6b08';
+  } else {
+    console.log('remover pelicula');
+    queueMovies = queueMovies.filter(m => m.id !== movie.id);
+    Notiflix.Notify.warning('Removed from Queue');
+    button.textContent = 'ADD TO QUEUE';
+    button.style.backgroundColor = '';
+  }
+
   localStorage.setItem('queueMovies', JSON.stringify(queueMovies));
-  Notiflix.Notify.success('Added to Queue');
+
+  displayQueueMovies();
 }
 
 function displayWatchedMovies() {
@@ -499,10 +630,7 @@ function paginateLocalStorage(context, pageNumber) {
   });
 }
 
-// MODAL TEAM 
-
-openModal.addEventListener('click', openModalTeam);
-closeModal.addEventListener('click', closeModalTeam);
+// Modal Team funcitons
 
 function openModalTeam(event) {
   teamBackdrop.classList.remove('team__backdrop--hidden');
@@ -539,4 +667,44 @@ function onBackdropClose(event) {
   }
 }
 
-// END MODAL TEAM 
+// Event listeners
+homeBtn.addEventListener('click', showHomePage);
+libraryBtn.addEventListener('click', showLibraryPage);
+openModal.addEventListener('click', openModalTeam);
+closeModal.addEventListener('click', closeModalTeam);
+
+if (searchInput) {
+  searchInput.addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+      performSearch();
+    }
+  });
+}
+
+if (searchButton) {
+  searchButton.addEventListener('click', performSearch);
+}
+
+if (watchedButton) {
+  watchedButton.addEventListener('click', displayWatchedMovies);
+}
+
+if (queueButton) {
+  queueButton.addEventListener('click', displayQueueMovies);
+}
+
+//SCROLL BUTTON
+window.onscroll = function () {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = 'block';
+  } else {
+    mybutton.style.display = 'none';
+  }
+};
+
+mybutton.addEventListener('click', function () {
+  document.documentElement.scrollTop = 0;
+});
+
+// Initialization
+init();
