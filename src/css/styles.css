@@ -550,7 +550,6 @@ a:not([class]) {
     border: 1px solid #888;
     width: 280px;
     height: auto;
-    /* width: 90%; */
   }
   .movie-image-container {
     margin: 40px 20px 0;
