@@ -2,6 +2,17 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './app/firebaseConfig.js';
+import { loginCheck } from './app/loginCheck.js';
+import './app/signupForm.js';
+import './app/signinForm.js';
+import './app/logout.js';
+
+onAuthStateChanged(auth, async user => {
+  loginCheck(user);
+});
+
 // DOM Elements
 const homePage = document.getElementById('home-page');
 const libraryBtn = document.getElementById('library-btn');
@@ -151,7 +162,6 @@ function createMovieCard(movie) {
     event.preventDefault();
     showMovieDetailsInModal(movie);
   });
-  console.log('Movie Object:', movie);
   return card;
 }
 
