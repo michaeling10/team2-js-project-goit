@@ -314,6 +314,7 @@ a:not([class]) {
 /*SECTION LIBRARY*/
 
 .header__library {
+  z-index: 0;
   position: relative;
   top: 0;
   left: 0;
@@ -322,7 +323,6 @@ a:not([class]) {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 100;
 }
 
 @media (min-device-pixel-ratio: 2),
@@ -1187,3 +1187,8 @@ a:not([class]) {
 }
 
 /*END MODAL TEAM*/
+
+.btn-add-watched.active,
+.btn-add-queue.active {
+  background-color: orange;
+}
