@@ -623,7 +623,7 @@ a:not([class]) {
     line-height: normal;
     margin-bottom: 21px;
   }
-  
+
   .movie-info-container strong {
     width: 85px;
     margin-bottom: 10px;
@@ -635,7 +635,6 @@ a:not([class]) {
 }
 
 @media screen and (min-width: 768px) {
- 
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
@@ -646,7 +645,7 @@ a:not([class]) {
     height: auto;
 
     width: 618px;
-  } */
+  }
 
   .movie-image-container {
     margin: 31px 32px 20px 28px;
@@ -724,7 +723,6 @@ a:not([class]) {
   }
 }
 
-
 @media screen and (min-width: 1024px) {
   .modal-content-window {
     background-color: #fefefe;
@@ -754,7 +752,6 @@ a:not([class]) {
     height: 100%;
     object-fit: contain;
   }
-
 
   .movie-info-container {
     margin: 50px 30px 20px 0;
