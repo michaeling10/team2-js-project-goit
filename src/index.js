@@ -128,9 +128,17 @@ function createMovieCard(movie) {
   const card = document.createElement('div');
   card.classList.add('movie-card');
 
+  const imgContainer = document.createElement('div');
+  imgContainer.classList.add('movie-img-container-main');
+
   const img = document.createElement('img');
   img.classList.add('movie-img');
-  img.src = `${IMAGE_BASE_URL}${movie.poster_path}`;
+  if (movie.poster_path) {
+    img.src = `${IMAGE_BASE_URL}${movie.poster_path}`;
+  } else {
+    img.src =
+      'https://s3.amazonaws.com/babelcube/covers/5c39ac1e557af_e-better-routines-and-success-successful-spiritual-habits_no_image.jpg';
+  }
   img.alt = movie.title || movie.name || 'N/A';
 
   const movieInfo = document.createElement('div');
@@ -142,7 +150,8 @@ function createMovieCard(movie) {
       movie.release_date || movie.first_air_date
     )}</p>
   `;
-  card.appendChild(img);
+  card.appendChild(imgContainer);
+  imgContainer.appendChild(img);
   card.appendChild(movieInfo);
 
   card.addEventListener('click', event => {
