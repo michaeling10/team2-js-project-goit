@@ -540,7 +540,6 @@ a:not([class]) {
 
 @media (min-width: 320px) {
   /* modificado  */
-
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
@@ -550,7 +549,6 @@ a:not([class]) {
     border: 1px solid #888;
     width: 280px;
     height: auto;
-    /* width: 90%; */
   }
   .movie-image-container {
     margin: 40px 20px 0;
@@ -625,7 +623,7 @@ a:not([class]) {
     line-height: normal;
     margin-bottom: 21px;
   }
-
+  
   .movie-info-container strong {
     width: 85px;
     margin-bottom: 10px;
@@ -637,8 +635,7 @@ a:not([class]) {
 }
 
 @media screen and (min-width: 768px) {
-  /* modificado */
-
+ 
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
@@ -649,7 +646,7 @@ a:not([class]) {
     height: auto;
 
     width: 618px;
-  }
+  } */
 
   .movie-image-container {
     margin: 31px 32px 20px 28px;
@@ -727,19 +724,19 @@ a:not([class]) {
   }
 }
 
+
 @media screen and (min-width: 1024px) {
-  /* modificado */
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     border: 1px solid #888;
     width: auto;
     height: auto;
   }
+
   .movie-details-container {
     width: 100%;
     height: 100%;
@@ -757,6 +754,7 @@ a:not([class]) {
     height: 100%;
     object-fit: contain;
   }
+
 
   .movie-info-container {
     margin: 50px 30px 20px 0;

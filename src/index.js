@@ -1,6 +1,17 @@
 'use strict'; // Modo estricto activado correctamen//Imports
 import axios from 'axios';
 import Notiflix from 'notiflix';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './app/firebaseConfig.js';
+import { loginCheck } from './app/loginCheck.js';
+import './app/signupForm.js';
+import './app/signinForm.js';
+import './app/logout.js';
+
+onAuthStateChanged(auth, async user => {
+  loginCheck(user);
+});
+
 
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
@@ -13,6 +24,7 @@ let currentContext = 'home';
 let genresList = [];
 let currentPage = 1;
 const moviesPerPage = 20;
+
 
 // DOM Elements
 const homePage = document.getElementById('home-page');
@@ -158,7 +170,6 @@ function createMovieCard(movie) {
     event.preventDefault();
     showMovieDetailsInModal(movie);
   });
-  console.log('Movie Object:', movie);
   return card;
 }
 

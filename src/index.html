@@ -1,5 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+   <!-- Empieza nav para login -->
+    <nav class="navbar navbar-expand-lg bg-black navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Bug Busters</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link logged-out"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#signinModal"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item logged-out">
+              <a
+                class="nav-link"
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#signupModal"
+                >Register</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link logged-in" href="#" id="logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Termina nav para login -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +54,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"
     />
     <link rel="stylesheet" href="./css/styles.css" />
+     <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
     <title>Filmoteka</title>
   </head>
   <body>
@@ -130,8 +177,53 @@
           </div>
         </div>
       </div>
-
       <!--END MODAL TEAM-->
+      
+       <!-- Modal Signup-->
+    <div
+      class="modal fade"
+      id="signupModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Signup</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="signup-form">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                id="signup-email"
+                class="form-control mb-3"
+                placeholder="Email"
+                required
+              />
+
+              <label for="password">Password:</label>
+              <input
+                type="password"
+                id="signup-password"
+                class="form-control mb-3"
+                placeholder="******"
+                required
+              />
+              <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Finaliza el modal -->
     </main>
 
     <!--FOOTER-->
@@ -152,5 +244,6 @@
       </div>
     </footer>
     <script src="./index.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
