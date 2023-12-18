@@ -1,7 +1,7 @@
 <h1 align="center"> Bug Busters </h1> <br>
 <p align="center">
   <a>
-    <img alt="Bug Busters" title="Bug Busters" src="https://drive.google.com/uc?export=view&id=1gG0vWOx7xGt5aLWFXELWuSF21eaqANP8" width="700">
+    <img alt="Bug Busters" title="Bug Busters" src="https://drive.google.com/uc?export=view&id=1gG0vWOx7xGt5aLWFXELWuSF21eaqANP8" width="500">
   </a>
 </p>
 
@@ -12,6 +12,16 @@
 ## Introducción
 
 Somos **Pied Piper** y en este ciclo nos hemos reunido 6 integrantes de GoIT 2023, para desarrollar una pagina web en la cual podemos visualizar peliculas y series.
+
+## Imports mandatorios
+
+* `npm install axios`
+* `npm i notiflix`
+* `npm install firebase`
+
+## Web Page Online
+
+Use este link para visualizar la versión online : https://michaeling10.github.io/team2-js-project-goit/
 
 ## Team
 
