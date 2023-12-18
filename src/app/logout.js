@@ -1,0 +1,8 @@
+import { signOut } from 'firebase/auth';
+import { auth } from './firebaseConfig.js';
+const logout = document.querySelector('#logout');
+
+logout.addEventListener('click', async () => {
+  await signOut(auth);
+  console.log('User signed out');
+});

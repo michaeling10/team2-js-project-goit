@@ -6,6 +6,14 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none !important;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
 body {
   min-height: 100vh;
   flex-direction: column;
@@ -65,7 +73,8 @@ a:not([class]) {
 .header {
   z-index: 0;
   height: 216px;
-  background-color: #0000008f;
+  background-color: rgba(0, 0, 0, 0.1);
+  background-blend-mode: overlay;
   background-image: url('../images/header/mob-background-home-1x.jpg');
   background-position: center;
   background-repeat: no-repeat;
@@ -220,17 +229,19 @@ a:not([class]) {
   color: #ffffff;
   width: 280px;
   position: relative;
-  border-bottom: 0.5px solid #ffffff;
+  border: 0.5px solid #ffffff;
   border-top: none;
   border-left: none;
   border-right: none;
   outline: 0;
   background: rgba(0, 0, 0, 0.7);
   padding: 10px 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
 }
 
 .header__form-input:focus-within {
-  border-bottom: 1px solid #818181;
+  border: 1px solid #818181;
   box-shadow: 0 0 15px #818181;
   border-radius: 5px;
 }
@@ -240,9 +251,9 @@ a:not([class]) {
 }
 
 .header__form-input::placeholder {
-  color: #a7a7a7;
+  color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 16px;
   letter-spacing: 0em;
   text-align: left;
@@ -540,7 +551,6 @@ a:not([class]) {
 
 @media (min-width: 320px) {
   /* modificado  */
-
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
@@ -550,12 +560,11 @@ a:not([class]) {
     border: 1px solid #888;
     width: 280px;
     height: auto;
-    /* width: 90%; */
   }
   .movie-image-container {
     margin: 40px 20px 0;
     width: 240px;
-    height: 356;
+    height: auto;
     border-radius: 5px;
   }
   .movie-image {
@@ -637,8 +646,6 @@ a:not([class]) {
 }
 
 @media screen and (min-width: 768px) {
-  /* modificado */
-
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
@@ -654,7 +661,7 @@ a:not([class]) {
   .movie-image-container {
     margin: 31px 32px 20px 28px;
     width: 264px;
-    height: 373.5px;
+    height: auto;
     border-radius: 5px;
   }
   .movie-image {
@@ -728,18 +735,17 @@ a:not([class]) {
 }
 
 @media screen and (min-width: 1024px) {
-  /* modificado */
   .modal-content-window {
     background-color: #fefefe;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     border: 1px solid #888;
     width: auto;
     height: auto;
   }
+
   .movie-details-container {
     width: 100%;
     height: 100%;
@@ -747,7 +753,7 @@ a:not([class]) {
   }
   .movie-image-container {
     width: 396px;
-    height: 477.8px;
+    height: auto;
     margin: 50px 30px 40px 30px;
     border-radius: 5px;
   }
