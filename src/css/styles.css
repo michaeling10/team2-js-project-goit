@@ -862,7 +862,6 @@ a:not([class]) {
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 133.333% */
-  text-transform: uppercase;
 }
 
 .close {
