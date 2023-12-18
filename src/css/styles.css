@@ -73,7 +73,8 @@ a:not([class]) {
 .header {
   z-index: 0;
   height: 216px;
-  background-color: #0000008f;
+  background-color: rgba(0, 0, 0, 0.1);
+  background-blend-mode: overlay;
   background-image: url('../images/header/mob-background-home-1x.jpg');
   background-position: center;
   background-repeat: no-repeat;
@@ -228,17 +229,19 @@ a:not([class]) {
   color: #ffffff;
   width: 280px;
   position: relative;
-  border-bottom: 0.5px solid #ffffff;
+  border: 0.5px solid #ffffff;
   border-top: none;
   border-left: none;
   border-right: none;
   outline: 0;
   background: rgba(0, 0, 0, 0.7);
   padding: 10px 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
 }
 
 .header__form-input:focus-within {
-  border-bottom: 1px solid #818181;
+  border: 1px solid #818181;
   box-shadow: 0 0 15px #818181;
   border-radius: 5px;
 }
@@ -248,9 +251,9 @@ a:not([class]) {
 }
 
 .header__form-input::placeholder {
-  color: #a7a7a7;
+  color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 16px;
   letter-spacing: 0em;
   text-align: left;

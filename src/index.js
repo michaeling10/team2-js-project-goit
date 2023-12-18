@@ -12,7 +12,6 @@ onAuthStateChanged(auth, async user => {
   loginCheck(user);
 });
 
-
 // API Constants
 const API_KEY = '5ccf4f402158a45718561fdbb05f12b0';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -24,7 +23,6 @@ let currentContext = 'home';
 let genresList = [];
 let currentPage = 1;
 const moviesPerPage = 20;
-
 
 // DOM Elements
 const homePage = document.getElementById('home-page');
@@ -96,7 +94,9 @@ function showHomePage() {
 }
 
 function showLibraryPage() {
-  Notiflix.Notify.info('Personal Library displayed');
+  Notiflix.Notify.info('Personal Library displayed', {
+    timeout: 1000,
+  });
   currentContext = 'watched';
   console.log('Se cargo Library');
   displayWatchedMovies();
@@ -206,11 +206,14 @@ function showMovieDetailsInModal(movie) {
         ? `${movie.title} (Movie)`
         : `${movie.name} (TV Series)`;
       const originalTitle = original_title || original_name || 'N/A';
+      const srcImage = movie.poster_path
+        ? `${IMAGE_BASE_URL}${movie.poster_path}`
+        : 'https://s3.amazonaws.com/babelcube/covers/5c39ac1e557af_e-better-routines-and-success-successful-spiritual-habits_no_image.jpg';
 
       const detailsHTML = `
       <div class="movie-details-container">
         <div class="movie-image-container">
-          <img src="${IMAGE_BASE_URL}${poster_path}" alt="${altText}" class="movie-image">
+          <img src="${srcImage}" alt="${altText}" class="movie-image">
         </div>
         <div class ="movie-info-btn-container">      
           <div class="movie-info-container">
