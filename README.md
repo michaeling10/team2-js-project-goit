@@ -11,7 +11,7 @@
 
 ## Introducción
 
-Somos **Pied Piper** y en este ciclo nos hemos reunido 6 integrantes de GoIT 2023, para desarrollar una pagina web en la cual podemos visualizar peliculas y series.
+Somos **Bug Buster** y en este ciclo nos hemos reunido 6 integrantes de GoIT 2023, para desarrollar una pagina web en la cual podemos visualizar peliculas y series.
 
 ## Imports mandatorios
 
