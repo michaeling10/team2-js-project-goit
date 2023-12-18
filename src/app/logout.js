@@ -5,4 +5,6 @@ const logout = document.querySelector('#logout');
 logout.addEventListener('click', async () => {
   await signOut(auth);
   console.log('User signed out');
+
+  window.location.href = '../index.html';
 });
