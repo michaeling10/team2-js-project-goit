@@ -89,7 +89,7 @@ function showHomePage() {
     setTimeout(function () {
       hideLoader();
       showPageContent();
-    }); // Ajusta el tiempo según sea necesario
+    });
   }, 1000);
 }
 
@@ -261,23 +261,22 @@ function showMovieDetailsInModal(movie) {
   }
 
   if (isWatched) {
-    watchedMButton.style.backgroundColor = '#ff6b08'; // Color naranja
-    watchedMButton.disabled = false; // Deshabilita el botón
-    queueMButton.disabled = true; // Habilita el otro botón
-    queueMButton.style.backgroundColor = ''; // Restaura el color original
+    watchedMButton.style.backgroundColor = '#ff6b08';
+    watchedMButton.disabled = false;
+    queueMButton.disabled = true;
+    queueMButton.style.backgroundColor = '';
     queueMButton.style.opacity = 0.5;
     queueMButton.style.cursor = 'not-allowed';
     queueMButton.style.pointerEvents = 'none';
   } else if (isQueued) {
-    queueMButton.style.backgroundColor = '#ff6b08'; // Color naranja
-    queueMButton.disabled = false; // Deshabilita el botón
-    watchedMButton.disabled = true; // Habilita el otro botón
-    watchedMButton.style.backgroundColor = ''; // Restaura el color original
+    queueMButton.style.backgroundColor = '#ff6b08';
+    queueMButton.disabled = false;
+    watchedMButton.disabled = true;
+    watchedMButton.style.backgroundColor = '';
     watchedMButton.style.opacity = 0.5;
     watchedMButton.style.cursor = 'not-allowed';
     watchedMButton.style.pointerEvents = 'none';
   } else {
-    // Restablece ambos botones si la película no está en ninguna lista
     watchedMButton.style.backgroundColor = '';
     queueMButton.style.backgroundColor = '';
     watchedMButton.disabled = false;
@@ -285,7 +284,6 @@ function showMovieDetailsInModal(movie) {
   }
 
   if (watchedMButton && queueMButton) {
-    // Actualiza el estado y el texto de los botones
     updateButtonState(
       watchedMButton,
       isWatched,
@@ -299,7 +297,6 @@ function showMovieDetailsInModal(movie) {
       'REMOVE FROM QUEUE'
     );
 
-    // Event listeners para los botones
     watchedMButton.onclick = () => toggleMovieInList(movie, 'watchedMovies');
     queueMButton.onclick = () => toggleMovieInList(movie, 'queueMovies');
   }
