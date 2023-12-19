@@ -6,5 +6,5 @@ logout.addEventListener('click', async () => {
   await signOut(auth);
   console.log('User signed out');
 
-  window.location.href = 'team2-js-project-goit/index.html';
+  window.location.href = '/index.html';
 });
